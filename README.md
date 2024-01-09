@@ -1,2 +1,2 @@
-# BlogManagementWithCleanArchitecture
-A simple eperiment with Clean Architecture
+# Blog Management With CleanArchitecture
+A simple experiment with Clean Architecture
