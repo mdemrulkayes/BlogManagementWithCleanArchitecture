@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  cleanarchitecture.blogmanagement.webapi:
+    image: ${DOCKER_REGISTRY-}blog-management-web-api
+    build:
+      context: .
+      dockerfile: src/CleanArchitecture.BlogManagement.WebApi/Dockerfile
