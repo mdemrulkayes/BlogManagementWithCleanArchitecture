@@ -28,8 +28,6 @@ app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
-app.MapSwagger().
-    RequireAuthorization();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
