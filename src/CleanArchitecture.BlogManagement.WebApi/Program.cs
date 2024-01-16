@@ -14,6 +14,8 @@ builder.Services
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddAuthorization().AddAuthentication();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,18 +27,11 @@ app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.MapGet("/weather", (ILogger<Program> logger) =>
-{
-    logger.LogWarning("Checking log message in Seq: Initial GET request called. {Date}", DateTime.Now);
-    Results.Ok();
-}).WithName("GetWeather").WithOpenApi();
-
 app.UseHttpsRedirection();
+app.MapSwagger().
+    RequireAuthorization();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
-
-public partial class Program
-{
-
-}
