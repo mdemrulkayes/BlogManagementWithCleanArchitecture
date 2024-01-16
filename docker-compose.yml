@@ -2,7 +2,16 @@ version: '3.4'
 
 services:
   cleanarchitecture.blogmanagement.webapi:
-    image: ${DOCKER_REGISTRY-}blog-management-web-api
+    image: ${DOCKER_REGISTRY-}web-api
+    container_name: blog-api
     build:
       context: .
       dockerfile: src/CleanArchitecture.BlogManagement.WebApi/Dockerfile
+  seq:
+    image: datalust/seq:latest
+    container_name: blog-seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+    - 5341:5341
+    - 8089:80

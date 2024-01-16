@@ -19,6 +19,17 @@ app.UseSerilogRequestLogging();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.MapGet("/weather", (ILogger<Program> logger) =>
+{
+    logger.LogWarning("Checking log message in Seq: Initial GET request called. {Date}", DateTime.Now);
+    Results.Ok();
+}).WithName("GetWeather").WithOpenApi();
+
 app.UseHttpsRedirection();
 
 app.Run();
+
+public partial class Program
+{
+
+}
