@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using CleanArchitecture.BlogManagement.Infrastructure.Identity;
+using CleanArchitecture.BlogManagement.Infrastructure.Services.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,13 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<BlogDbContext>()
             .AddDefaultTokenProviders();
 
+        services.RegisterServices();
+
         return services;
+    }
+
+    private static void RegisterServices(this IServiceCollection services)
+    {
+        services.RegisterUserServices();
     }
 }
