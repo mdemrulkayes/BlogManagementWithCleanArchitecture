@@ -2,6 +2,7 @@ using CleanArchitecture.BlogManagement.Application;
 using CleanArchitecture.BlogManagement.Application.Common.Exceptions;
 using CleanArchitecture.BlogManagement.Infrastructure;
 using CleanArchitecture.BlogManagement.WebApi;
+using CleanArchitecture.BlogManagement.WebApi.Middlewares;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+app.UseMiddleware<RequestLogContextMiddleware>();
 app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 app.UseSwagger();
