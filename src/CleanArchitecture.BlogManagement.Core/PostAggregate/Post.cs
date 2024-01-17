@@ -1,6 +1,4 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.BusinessRuleEngine;
-using CleanArchitecture.BlogManagement.Core.PostAggregate.BusinessRules;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
 public sealed class Post : BaseAuditableEntity, IAggregateRoot
@@ -26,8 +24,6 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
 
     public static Post CreatePost(string title, string slug, string text)
     {
-        BusinessRuleValidator.Validate(new PostTitleMustBeSmallerThanMaximumLength(title.Length));
-
         return new Post(title, slug, text, DateTimeOffset.Now);
     }
 
@@ -42,8 +38,6 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
 
     public void AddComment(Comment comment)
     {
-        BusinessRuleValidator.Validate(new PostCommentMustBeSmallerThanMaximumLength(comment.Text.Length));
-
         _comments.Add(comment);
     }
 }
