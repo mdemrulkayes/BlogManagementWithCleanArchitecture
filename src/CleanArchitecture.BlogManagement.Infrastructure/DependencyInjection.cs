@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
+using CleanArchitecture.BlogManagement.Infrastructure.Data.Interceptors;
 using CleanArchitecture.BlogManagement.Infrastructure.Identity;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence;
 using CleanArchitecture.BlogManagement.Infrastructure.Services.Identity;
@@ -13,9 +14,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<BlogDbContext>(opt =>
+        services.RegisterDatabaseInterceptors();
+        services.AddDbContext<BlogDbContext>((sp,opt) =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("BlogDbContext"));
+            opt.UseSqlServer(configuration.GetConnectionString("BlogDbContext"))
+                .AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
         });
 
         services.Configure<IdentityOptions>(options =>
@@ -46,5 +49,10 @@ public static class DependencyInjection
         services.RegisterIdentityServices();
         services.AddScoped<IRepository, Repository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+    }
+
+    private static void RegisterDatabaseInterceptors(this IServiceCollection services)
+    {
+        services.AddScoped<AuditableEntityInterceptor>();
     }
 }
