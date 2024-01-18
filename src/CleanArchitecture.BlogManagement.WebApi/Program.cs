@@ -34,4 +34,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGet("weather", () => Results.Ok())
+    .WithName("Weather")
+    .WithOpenApi();
+
 app.Run();

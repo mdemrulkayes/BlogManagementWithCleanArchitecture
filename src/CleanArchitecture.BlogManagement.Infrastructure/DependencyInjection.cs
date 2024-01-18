@@ -1,5 +1,7 @@
-﻿using CleanArchitecture.BlogManagement.Infrastructure.Data;
+﻿using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using CleanArchitecture.BlogManagement.Infrastructure.Identity;
+using CleanArchitecture.BlogManagement.Infrastructure.Persistence;
 using CleanArchitecture.BlogManagement.Infrastructure.Services.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,5 +44,7 @@ public static class DependencyInjection
     private static void RegisterServices(this IServiceCollection services)
     {
         services.RegisterIdentityServices();
+        services.AddScoped<IRepository, Repository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

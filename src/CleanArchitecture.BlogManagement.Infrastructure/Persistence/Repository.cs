@@ -31,28 +31,36 @@ internal class Repository(BlogDbContext dbContext) : IRepository
         await Task.CompletedTask;
     }
 
-    public async Task<TEntity?> GetAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : BaseEntity
+    public async Task<TEntity?> FirstOrDefaultAsync<TEntity>(Expression<Func<TEntity, bool>> expression, string includeProperties) where TEntity : BaseEntity
     {
-        return await dbContext.Set<TEntity>().FirstOrDefaultAsync(expression);
+        var query = dbContext.Set<TEntity>().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(includeProperties))
+        {
+            query = includeProperties.Split(new char[] { ',' },
+                StringSplitOptions.RemoveEmptyEntries).Aggregate(query, (current, includeProperty)
+                => current.Include(includeProperty));
+        }
+
+        return await query.FirstOrDefaultAsync();
     }
 
     public IQueryable<TEntity> FindQueryable<TEntity>(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null) where TEntity : BaseEntity
     {
-        throw new NotImplementedException();
+        var query = dbContext.Set<TEntity>().Where(expression);
+        return orderBy != null ? orderBy(query) : query;
     }
 
-    public async Task<IEnumerable<TEntity>> FindAllAsync<TEntity>(Expression<Func<TEntity, bool>>? expression, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default) where TEntity : class
+    public async Task<List<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>>? expression, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default) where TEntity : class
     {
-        throw new NotImplementedException();
+        var query = expression != null ? dbContext.Set<TEntity>().Where(expression) : dbContext.Set<TEntity>();
+        return orderBy != null
+            ? await orderBy(query).ToListAsync(cancellationToken)
+            : await query.ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<TEntity>> FindAllAsync<TEntity>(CancellationToken cancellationToken) where TEntity : BaseEntity
+    public async Task<List<TEntity>> FindAllAsync<TEntity>(CancellationToken cancellationToken) where TEntity : BaseEntity
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task<TEntity?> SingleOrDefaultAsync<TEntity>(Expression<Func<TEntity, bool>> expression, string includeProperties) where TEntity : BaseEntity
-    {
-        throw new NotImplementedException();
+        return await dbContext.Set<TEntity>().ToListAsync(cancellationToken);
     }
 }
