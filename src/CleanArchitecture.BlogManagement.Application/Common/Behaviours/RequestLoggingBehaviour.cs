@@ -6,7 +6,7 @@ using Serilog.Context;
 namespace CleanArchitecture.BlogManagement.Application.Common.Behaviours;
 
 internal sealed class RequestLoggingBehaviour<TRequest, TResponse>(ILogger logger) : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : class
+    where TRequest : IRequest<TRequest>
     where TResponse : Result<TRequest>
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
