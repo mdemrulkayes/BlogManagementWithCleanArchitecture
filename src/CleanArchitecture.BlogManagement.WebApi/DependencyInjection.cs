@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace CleanArchitecture.BlogManagement.WebApi;
@@ -46,5 +47,19 @@ public static class DependencyInjection
         });
 
         return services;
+    }
+
+    public static void MapEndpoints(this WebApplication app)
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        var classes = assemblies.Distinct().SelectMany(x => x.GetTypes())
+            .Where(x => typeof(EndpointGroupBase).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+
+        foreach (var classe in classes)
+        {
+            var instance = Activator.CreateInstance(classe) as EndpointGroupBase;
+            instance?.Map(app);
+        }
     }
 }

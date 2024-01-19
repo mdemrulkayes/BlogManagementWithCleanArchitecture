@@ -35,9 +35,17 @@ public static class DependencyInjection
             options.SignIn.RequireConfirmedPhoneNumber = false;
         });
 
-        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+        services.AddAuthentication()
+            .AddBearerToken(IdentityConstants.BearerScheme);
+
+        services.AddAuthorizationBuilder();
+
+        services.AddIdentityCore<ApplicationUser>()
             .AddEntityFrameworkStores<BlogDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddApiEndpoints();
+
+        services.AddAuthorization();
 
         services.RegisterServices();
 
