@@ -42,7 +42,6 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.Map("/", () => Results.Redirect("/api"));
 app.MapEndpoints();
 
 app.Run();

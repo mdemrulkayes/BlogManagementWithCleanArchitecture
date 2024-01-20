@@ -55,8 +55,7 @@ public static class DependencyInjection
         var groupName = group.GetType().Name;
 
         return app
-            .MapGroup($"/api/{groupName}")
-            .WithGroupName(groupName)
+            .MapGroup($"/api/{groupName.ToLower()}")
             .WithTags(groupName)
             .WithOpenApi();
     }
