@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Reflection;
 
 namespace CleanArchitecture.BlogManagement.WebApi;
 
@@ -49,17 +50,34 @@ public static class DependencyInjection
         return services;
     }
 
-    public static void MapEndpoints(this WebApplication app)
+    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group)
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        var groupName = group.GetType().Name;
 
-        var classes = assemblies.Distinct().SelectMany(x => x.GetTypes())
-            .Where(x => typeof(EndpointGroupBase).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+        return app
+            .MapGroup($"/api/{groupName}")
+            .WithGroupName(groupName)
+            .WithTags(groupName)
+            .WithOpenApi();
+    }
 
-        foreach (var classe in classes)
+    public static WebApplication MapEndpoints(this WebApplication app)
+    {
+        var endpointGroupType = typeof(EndpointGroupBase);
+
+        var assembly = Assembly.GetExecutingAssembly();
+
+        var endpointGroupTypes = assembly.GetExportedTypes()
+            .Where(t => t.IsSubclassOf(endpointGroupType));
+
+        foreach (var type in endpointGroupTypes)
         {
-            var instance = Activator.CreateInstance(classe) as EndpointGroupBase;
-            instance?.Map(app);
+            if (Activator.CreateInstance(type) is EndpointGroupBase instance)
+            {
+                instance.Map(app);
+            }
         }
+
+        return app;
     }
 }

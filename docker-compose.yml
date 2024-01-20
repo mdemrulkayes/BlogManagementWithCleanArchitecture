@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: src/CleanArchitecture.BlogManagement.WebApi/Dockerfile
+    ports:
+    - 8099:80
   seq:
     image: datalust/seq:latest
     container_name: blog-seq

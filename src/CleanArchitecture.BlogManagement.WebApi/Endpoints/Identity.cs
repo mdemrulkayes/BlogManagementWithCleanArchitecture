@@ -7,7 +7,7 @@ public class Identity : EndpointGroupBase
 {
     public override void Map(WebApplication builder)
     {
-        builder.MapGroup("Identity")
+        builder.MapGroup(this)
             .MapIdentityApi<ApplicationUser>();
     }
 }
