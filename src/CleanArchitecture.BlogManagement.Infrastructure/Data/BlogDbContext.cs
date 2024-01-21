@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using CleanArchitecture.BlogManagement.Core.Category;
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using CleanArchitecture.BlogManagement.Core.Tag;
 using CleanArchitecture.BlogManagement.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,6 +15,10 @@ public class BlogDbContext(DbContextOptions<BlogDbContext> options)
     public DbSet<Post> Posts { get; set; }
 
     public DbSet<Comment> Comments { get; set; }
+
+    public DbSet<Tag> Tags { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
