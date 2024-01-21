@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.BlogManagement.WebApi.Endpoints;
 
-public class Weather : EndpointGroupBase
+public sealed class Weather : EndpointGroupBase
 {
     public override void Map(WebApplication builder)
     {
