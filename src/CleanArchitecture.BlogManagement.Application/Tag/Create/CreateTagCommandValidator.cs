@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Create;
-internal sealed class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
+public sealed class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
 {
     public CreateTagCommandValidator()
     {

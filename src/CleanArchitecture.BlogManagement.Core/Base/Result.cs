@@ -1,5 +1,5 @@
 ﻿namespace CleanArchitecture.BlogManagement.Core.Base;
-public class Result<TValue>
+public class Result<TValue> : IBaseResult
 {
     public bool IsSuccess { get; }
     public Error Error { get; }

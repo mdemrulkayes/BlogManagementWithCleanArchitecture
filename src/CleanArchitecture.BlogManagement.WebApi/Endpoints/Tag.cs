@@ -13,7 +13,7 @@ public sealed class Tag : EndpointGroupBase
     public override void Map(WebApplication builder)
     {
         builder.MapGroup(this)
-            .RequireAuthorization()
+            //.RequireAuthorization()
             .MapGet(GetAllTags)
             .MapPost(CreateTag);
     }
@@ -21,7 +21,7 @@ public sealed class Tag : EndpointGroupBase
     private async Task<IResult> GetAllTags(ISender sender)
     {
         Result<List<TagResponse>> tags = await sender.Send(new GetTagsCommand());
-        return tags.IsSuccess ? Results.Ok(tags) : tags.ConvertToProblemDetails();
+        return tags.IsSuccess ? Results.Ok(tags.Value) : tags.ConvertToProblemDetails();
     }
 
     private async Task<IResult> CreateTag(ISender sender, CreateTagCommand command)

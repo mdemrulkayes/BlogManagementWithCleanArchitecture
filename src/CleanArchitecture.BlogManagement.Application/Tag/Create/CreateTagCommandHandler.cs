@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Core.Base;
+using FluentValidation;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Create;
@@ -12,7 +13,7 @@ internal sealed class CreateTagCommandHandler(IRepository repository, IUnitOfWor
     public async Task<Result<TagResponse>> Handle(CreateTagCommand request, CancellationToken cancellationToken)
     {
         var tagAlreadyExists = await repository.AnyAsync<TagCore>(x =>
-            string.Equals(x.Name.ToLower(), request.Name.ToLower(), StringComparison.Ordinal));
+            x.Name.ToLower() == request.Name.ToLower());
 
         if (tagAlreadyExists)
         {

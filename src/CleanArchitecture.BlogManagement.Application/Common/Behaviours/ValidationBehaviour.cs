@@ -1,17 +1,19 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Behaviours;
-public sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
+public sealed class ValidationBehaviour<TRequest, TResponse>(ILogger<ValidationBehaviour<TRequest, TResponse>> logger, IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TRequest>
-    where TResponse : Result<TResponse>
+    where TRequest : notnull
+    where TResponse : IBaseResult
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         if (!validators.Any()) return await next();
 
+        logger.LogInformation("Inside validation behaviour pipeline and found validation errors.");
         var context = new ValidationContext<TRequest>(request);
 
         var validationResults = await Task.WhenAll(
@@ -25,7 +27,7 @@ public sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValida
 
         if (!failures.Any()) return await next();
 
-        var errors = failures.ConvertAll(error => Error.Validation(error.PropertyName,error.ErrorMessage));
+        var errors = failures.ConvertAll(error => Error.Validation(error.PropertyName, error.ErrorMessage));
         return (dynamic)errors;
     }
 }

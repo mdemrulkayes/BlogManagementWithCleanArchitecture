@@ -11,6 +11,20 @@ public static class ResultExtension
         {
             throw new InvalidOperationException();
         }
+
+        if (result.Errors != null && result.Errors.Any())
+        {
+            return Results.Problem(new ProblemDetails
+            {
+                Detail = "",
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Bad Request",
+                Extensions = new Dictionary<string, object?>
+                {
+                    {"errors", result.Errors}
+                }
+            });
+        }
         return Results.Problem(new ProblemDetails
         {
             Detail = "",
