@@ -3,7 +3,7 @@ using CleanArchitecture.BlogManagement.Core.Base;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Create;
-internal sealed class CreateTagCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapperBase mapper) : ICommandHandler<CreateTagCommand, Result<TagResponse>>
+internal sealed class CreateTagCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<CreateTagCommand, Result<TagResponse>>
 {
     /// <summary>Handles a request</summary>
     /// <param name="request">The request</param>

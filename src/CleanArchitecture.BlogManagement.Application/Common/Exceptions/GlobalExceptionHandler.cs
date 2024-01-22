@@ -1,20 +1,23 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Exceptions;
-public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IHostEnvironment environment) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         logger.LogError(exception, "Error occurred. Message: {message}", exception.Message);
 
+        var errorDetails = environment.IsDevelopment() ? exception.Message : "Please contact with admin";
+
         var problemDetails = new ProblemDetails
         {
             Title = "Internal server error.",
             Status = StatusCodes.Status500InternalServerError,
-            Detail = "An unhandled exception occurred. Please contact with admin"
+            Detail = $"An unhandled exception occurred. {errorDetails} "
         };
 
         httpContext.Response.StatusCode = problemDetails.Status.Value;

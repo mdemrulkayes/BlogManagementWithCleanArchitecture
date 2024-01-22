@@ -3,7 +3,7 @@ using CleanArchitecture.BlogManagement.Core.Base;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Query;
-internal class GetTagsCommandHandler(IRepository repository, IMapperBase mapper) : IQueryHandler<GetTagsCommand, Result<List<TagResponse>>>
+internal class GetTagsCommandHandler(IRepository repository, IMapper mapper) : IQueryHandler<GetTagsCommand, Result<List<TagResponse>>>
 {
     public async Task<Result<List<TagResponse>>> Handle(GetTagsCommand request, CancellationToken cancellationToken)
     {
