@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 
-namespace CleanArchitecture.BlogManagement.Application.Common.Tag.Create;
-internal sealed class TagCreateCommandValidator : AbstractValidator<TagCreateCommand>
+namespace CleanArchitecture.BlogManagement.Application.Tag.Create;
+internal sealed class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
 {
-    public TagCreateCommandValidator()
+    public CreateTagCommandValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()

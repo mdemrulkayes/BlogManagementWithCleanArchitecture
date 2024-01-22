@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Application.Common.Tag.Create;
+﻿using CleanArchitecture.BlogManagement.Application.Tag;
+using CleanArchitecture.BlogManagement.Application.Tag.Create;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.WebApi.Extensions;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
@@ -15,7 +16,7 @@ public sealed class Tag() : EndpointGroupBase
             .MapPost(CreateTag);
     }
 
-    private async Task<IResult> CreateTag(ISender sender, TagCreateCommand command)
+    private async Task<IResult> CreateTag(ISender sender, CreateTagCommand command)
     {
         Result<TagResponse> createdTag = await sender.Send(command);
 
