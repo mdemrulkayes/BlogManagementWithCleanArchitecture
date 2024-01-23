@@ -3,5 +3,5 @@
 namespace CleanArchitecture.BlogManagement.Application.Tag;
 internal struct TagErrors
 {
-    public static Error TagNameAlreadyExists => Error.Failure("Tag.TagNameAlreadyExists", "Tag name is already exists.");
+    public static Error TagNotFound => Error.NotFound("Tag.TagNotFound", "Tag not found.");
 }

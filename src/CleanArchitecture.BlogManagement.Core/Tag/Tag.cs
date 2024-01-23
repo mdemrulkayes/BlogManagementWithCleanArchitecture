@@ -14,8 +14,35 @@ public sealed class Tag : BaseAuditableEntity
         Description = description;
     }
 
-    public static Tag Create(string name, string description)
+    private Tag(long tagId, string name, string description, Guid createdBy, DateTimeOffset createdDate)
     {
-        return new Tag(name,description);
+        TagId = tagId;
+        Name = name;
+        Description = description;
+        CreatedBy = createdBy;
+        CreatedDate = createdDate;
+    }
+
+    public static Result<Tag> Create(string name, string description)
+    {
+        //Below validations are already checked by FluentValidation. This is an example to implement business validation here
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Error.Validation("Tag.Name", "Tag Name can not be empty");
+        }
+
+        if (description.Length is <= 10 or >= 150)
+        {
+            return Error.Validation("Tag.Description", "Tag Description can not be more than 150 characters");
+        }
+
+        return new Tag(name, description);
+    }
+
+    public Result<Tag> Update(string name, string description)
+    {
+        Name = name;
+        Description = description;
+        return this;
     }
 }

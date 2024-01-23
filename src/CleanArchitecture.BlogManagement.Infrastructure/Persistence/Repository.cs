@@ -42,7 +42,9 @@ internal class Repository(BlogDbContext dbContext) : IRepository
                 => current.Include(includeProperty));
         }
 
-        return await query.FirstOrDefaultAsync();
+        return await query
+            .AsNoTracking()
+            .FirstOrDefaultAsync(expression);
     }
 
     public IQueryable<TEntity> FindQueryable<TEntity>(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null) where TEntity : BaseEntity
