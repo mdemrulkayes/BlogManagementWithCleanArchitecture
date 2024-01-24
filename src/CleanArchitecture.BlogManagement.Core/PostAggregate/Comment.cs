@@ -9,8 +9,9 @@ public class Comment : BaseAuditableEntity
 
     public long PostId { get; private set; }
 
-    public void DeleteComment()
+    internal Comment Update(string text)
     {
-        IsDeleted = true;
+        Text = text;
+        return this;
     }
 }

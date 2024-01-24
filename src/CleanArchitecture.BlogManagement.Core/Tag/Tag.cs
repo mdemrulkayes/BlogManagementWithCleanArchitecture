@@ -14,15 +14,6 @@ public sealed class Tag : BaseAuditableEntity
         Description = description;
     }
 
-    private Tag(long tagId, string name, string description, Guid createdBy, DateTimeOffset createdDate)
-    {
-        TagId = tagId;
-        Name = name;
-        Description = description;
-        CreatedBy = createdBy;
-        CreatedDate = createdDate;
-    }
-
     public static Result<Tag> Create(string name, string description)
     {
         //Below validations are already checked by FluentValidation. This is an example to implement business validation here
