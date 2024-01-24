@@ -4,10 +4,12 @@ using CleanArchitecture.BlogManagement.Infrastructure.Data.Interceptors;
 using CleanArchitecture.BlogManagement.Infrastructure.Identity;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence;
 using CleanArchitecture.BlogManagement.Infrastructure.Services.Identity;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Metadata;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure;
 public static class DependencyInjection
@@ -62,5 +64,14 @@ public static class DependencyInjection
     private static void RegisterDatabaseInterceptors(this IServiceCollection services)
     {
         services.AddScoped<AuditableEntityInterceptor>();
+    }
+
+
+    public static WebApplication MigrateDatabase(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        using var database = scope.ServiceProvider.GetRequiredService<BlogDbContext>();
+        database.Database.Migrate();
+        return app;
     }
 }

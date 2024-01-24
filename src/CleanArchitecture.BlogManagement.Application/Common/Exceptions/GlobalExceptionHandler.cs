@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Exceptions;
 public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IHostEnvironment environment) : IExceptionHandler
@@ -11,7 +12,7 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
     {
         logger.LogError(exception, "Error occurred. Message: {message}", exception.Message);
 
-        var errorDetails = environment.IsDevelopment() ? exception.Message : "Please contact with admin";
+        var errorDetails = environment.IsDevelopment() ? JsonConvert.SerializeObject(exception) : "Please contact with admin";
 
         var problemDetails = new ProblemDetails
         {

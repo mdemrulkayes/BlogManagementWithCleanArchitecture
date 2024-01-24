@@ -9,14 +9,31 @@ services:
       dockerfile: src/CleanArchitecture.BlogManagement.WebApi/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__BlogDbContext: "Server=dockercompose-db-1;database=AspNetCoreExperiment;User Id=sa;Password=Pass@word;Encrypt=false"
+      ConnectionStrings__BlogDbContext: "Server=blog-db;database=AspNetCoreExperiment;User Id=sa;Password=Pass@word;Encrypt=false"
     ports:
-    - 8099:8083
+    - 5000:5000
+    - 5001:5001
   seq:
     image: datalust/seq:latest
     container_name: blog-seq
+    volumes:
+      - seqvolume:/var/opt/seq 
     environment:
       - ACCEPT_EULA=Y
     ports:
     - 5341:5341
     - 8089:80
+  blog.db:
+    container_name: blog-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pass@word
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    ports:
+    - 1434:1433
+volumes:
+   sqlvolume:
+   seqvolume:    
+  

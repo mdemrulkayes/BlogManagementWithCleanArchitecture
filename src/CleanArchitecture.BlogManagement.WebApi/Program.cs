@@ -28,7 +28,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-//app.UseMiddleware<RequestLogContextMiddleware>();
+app.UseMiddleware<RequestLogContextMiddleware>();
 
 app.UseSerilogRequestLogging();
 
@@ -37,6 +37,8 @@ app.UseExceptionHandler();
 app.UseSwagger();
 
 app.UseSwaggerUI();
+
+app.MigrateDatabase();
 
 app.UseHttpsRedirection();
 

@@ -32,6 +32,6 @@ internal sealed class UpdateTagCommandValidator : AbstractValidator<UpdateTagCom
         RuleFor(x => x.Description)
             .Length(10, 150)
             .When(x => !string.IsNullOrWhiteSpace(x.Description))
-            .WithMessage("Name can not be less than 10 characters and can not be more than 150 characters");
+            .WithMessage("Description can not be less than 10 characters and can not be more than 150 characters");
     }
 }
