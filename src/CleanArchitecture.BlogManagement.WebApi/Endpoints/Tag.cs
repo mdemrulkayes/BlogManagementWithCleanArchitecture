@@ -25,13 +25,13 @@ public sealed class Tag : EndpointGroupBase
 
     private async Task<IResult> GetAllTags(ISender sender)
     {
-        Result<List<TagResponse>> tags = await sender.Send(new GetTagsCommand());
+        Result<List<TagResponse>> tags = await sender.Send(new GetAllTagsQuery());
         return tags.IsSuccess ? Results.Ok(tags.Value) : tags.ConvertToProblemDetails();
     }
 
     private async Task<IResult> GetTagDetailsById(ISender sender, long tagId)
     {
-        Result<TagResponse> tag = await sender.Send(new GetTagByIdCommand(tagId));
+        Result<TagResponse> tag = await sender.Send(new GetTagByIdQuery(tagId));
         return tag.IsSuccess ? Results.Ok(tag.Value) : tag.ConvertToProblemDetails();
     }
 

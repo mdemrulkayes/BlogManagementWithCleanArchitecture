@@ -20,7 +20,7 @@ public sealed class CreateTagCommandValidator : AbstractValidator<CreateTagComma
                     x.Name.ToLower() == name.ToLower());
                 return !isNameAlreadyExists;
             })
-            .WithMessage("Tag name is already exists");
+            .WithMessage("Tag name already exists");
 
         RuleFor(x => x.Description)
             .Length(10, 150)

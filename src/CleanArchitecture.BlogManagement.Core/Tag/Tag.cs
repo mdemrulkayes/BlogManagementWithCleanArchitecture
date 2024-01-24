@@ -31,7 +31,7 @@ public sealed class Tag : BaseAuditableEntity
             return Error.Validation("Tag.Name", "Tag Name can not be empty");
         }
 
-        if (description.Length is <= 10 or >= 150)
+        if (!string.IsNullOrWhiteSpace(description) && description.Length is <= 10 or >= 150)
         {
             return Error.Validation("Tag.Description", "Tag Description can not be more than 150 characters");
         }
