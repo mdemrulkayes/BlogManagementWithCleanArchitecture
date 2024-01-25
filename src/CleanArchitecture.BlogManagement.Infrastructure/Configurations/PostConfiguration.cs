@@ -22,7 +22,16 @@ internal sealed class PostConfiguration : IEntityTypeConfiguration<Post>
             .HasForeignKey(x => x.PostId);
 
 
-        builder.Property(x => x.Title).HasMaxLength(200).IsRequired();
-        builder.Property(x => x.Slug).HasMaxLength(50).IsRequired();
+        builder
+            .Property(x => x.Title)
+            .HasMaxLength(200)
+            .IsRequired();
+        builder
+            .Property(x => x.Text)
+            .IsRequired();
+        builder
+            .Property(x => x.Slug)
+            .HasMaxLength(50)
+            .IsRequired();
     }
 }
