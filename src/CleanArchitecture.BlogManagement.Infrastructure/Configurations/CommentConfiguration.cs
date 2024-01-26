@@ -8,6 +8,8 @@ namespace CleanArchitecture.BlogManagement.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
+            builder.ToTable($"{nameof(Comment)}");
+
             builder
                 .HasKey(x => x.CommentId);
             builder

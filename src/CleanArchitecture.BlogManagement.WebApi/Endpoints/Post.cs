@@ -1,6 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Application.Post;
-using CleanArchitecture.BlogManagement.Application.Post.Create;
-using CleanArchitecture.BlogManagement.Core.Base;
+﻿using CleanArchitecture.BlogManagement.Application.Post.Create;
+using CleanArchitecture.BlogManagement.Application.Post.Query;
 using CleanArchitecture.BlogManagement.WebApi.Extensions;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
@@ -13,12 +12,19 @@ public class Post : EndpointGroupBase
     {
         builder.MapGroup(this)
             //.RequireAuthorization()
+            .MapGet(GetPostById, "{postId}")
             .MapPost(CreatePost);
     }
 
-    private async Task<IResult> CreatePost(ISender sender, CreatePostCommand command)
+    private static async Task<IResult> CreatePost(ISender sender, CreatePostCommand command)
     {
-        Result<PostResponse> createdPost = await sender.Send(command);
+        var createdPost = await sender.Send(command);
         return createdPost.IsSuccess ? Results.Ok(createdPost.Value) : createdPost.ConvertToProblemDetails();
+    }
+
+    private static async Task<IResult> GetPostById(ISender sender, long postId)
+    {
+        var result = await sender.Send(new GetPostByIdQuery(postId));
+        return result.IsSuccess ? Results.Ok(result.Value) : result.ConvertToProblemDetails();
     }
 }

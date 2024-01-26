@@ -18,4 +18,8 @@
     <ProjectReference Include="..\CleanArchitecture.BlogManagement.Core\CleanArchitecture.BlogManagement.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Post\Update\" />
+  </ItemGroup>
+
 </Project>

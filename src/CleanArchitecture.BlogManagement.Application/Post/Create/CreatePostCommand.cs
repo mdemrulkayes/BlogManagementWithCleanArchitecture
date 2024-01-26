@@ -2,4 +2,4 @@
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.Create;
-public sealed record CreatePostCommand(string Title, string Text, string Slug, PostStatus Status = PostStatus.Draft) : ICommand<Result<PostResponse>>;
+public sealed record CreatePostCommand(string Title, string Text, string Slug, PostStatus Status = PostStatus.Draft) : ICommand<Result<long>>;

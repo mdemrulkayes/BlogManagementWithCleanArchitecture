@@ -3,9 +3,9 @@ using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.Create;
-internal sealed class CreatePostCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<CreatePostCommand, Result<PostResponse>>
+internal sealed class CreatePostCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<CreatePostCommand, Result<long>>
 {
-    public async Task<Result<PostResponse>> Handle(CreatePostCommand request, CancellationToken cancellationToken = default)
+    public async Task<Result<long>> Handle(CreatePostCommand request, CancellationToken cancellationToken = default)
     {
         var post = Core.PostAggregate.Post.CreatePost(request.Title, request.Slug, request.Text);
         if (!post.IsSuccess || post.Value is null)
@@ -30,6 +30,6 @@ internal sealed class CreatePostCommandHandler(IRepository repository, IUnitOfWo
         await repository.Add(post.Value);
         await unitOfWork.CommitAsync(cancellationToken);
 
-        return mapper.Map<PostResponse>(post.Value);
+        return post.Value.PostId;
     }
 }
