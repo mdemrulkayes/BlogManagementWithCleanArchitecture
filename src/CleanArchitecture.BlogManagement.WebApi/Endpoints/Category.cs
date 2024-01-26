@@ -4,7 +4,6 @@ using CleanArchitecture.BlogManagement.Application.Category.Delete;
 using CleanArchitecture.BlogManagement.Application.Category.Query;
 using CleanArchitecture.BlogManagement.Application.Category.Update;
 using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Tag;
 using CleanArchitecture.BlogManagement.WebApi.Extensions;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
