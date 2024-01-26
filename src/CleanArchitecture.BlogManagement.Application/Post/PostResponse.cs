@@ -2,4 +2,12 @@
 
 namespace CleanArchitecture.BlogManagement.Application.Post;
 
-public sealed record PostResponse(long PostId, string Title, string Slug, PostStatus Status, string Text, List<CommentResponse> Comments);
+public sealed record PostResponse(
+    long PostId,
+    string Title,
+    string Slug,
+    PostStatus Status,
+    string StatusText,
+    string Text,
+    List<CommentResponse> Comments)
+    ;

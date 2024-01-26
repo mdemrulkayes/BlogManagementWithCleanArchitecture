@@ -13,6 +13,7 @@ internal sealed class PostMappingProfile : Profile
                     Title: post.Title,
                     Slug: post.Slug,
                     Status: post.Status,
+                    StatusText: post.Status.ToString(),
                     Text: post.Text,
                     Comments: context.Mapper.Map<List<CommentResponse>>(post.Comments)
                 ))
