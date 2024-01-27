@@ -9,10 +9,7 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     public PostStatus Status { get; private set; }
     public DateTimeOffset? PublishedAt { get; private set; }
     public string Text { get; private set; }
-
-    private readonly List<Comment> _comments = new();
-
-    public IEnumerable<Comment> Comments => _comments.AsReadOnly();
+    public IEnumerable<Comment> Comments { get; private set; }
 
     private Post(string title, string slug, string text)
     {

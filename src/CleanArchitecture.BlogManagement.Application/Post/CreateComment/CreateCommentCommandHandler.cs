@@ -2,11 +2,11 @@
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.CreateComment;
-internal sealed class CreateCommentCommandHandler(IRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<CreateCommentCommand, Result<long>>
+internal sealed class CreateCommentCommandHandler(IPostRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<CreateCommentCommand, Result<long>>
 {
     public async Task<Result<long>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
     {
-        var postDetails = await repository.FirstOrDefaultAsync<Core.PostAggregate.Post>(x => x.PostId == request.PostId);
+        var postDetails = await repository.GetPostDetailsWithoutComments(request.PostId, cancellationToken);
         if (postDetails is null)
         {
             return PostErrors.NotFound;

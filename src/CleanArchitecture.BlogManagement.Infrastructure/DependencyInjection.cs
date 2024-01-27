@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection.Metadata;
+using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Post;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure;
 public static class DependencyInjection
@@ -58,6 +60,7 @@ public static class DependencyInjection
     {
         services.RegisterIdentityServices();
         services.AddScoped<IRepository, Repository>();
+        services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
