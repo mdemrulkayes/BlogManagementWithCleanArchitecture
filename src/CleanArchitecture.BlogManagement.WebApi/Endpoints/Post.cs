@@ -1,8 +1,11 @@
 ﻿using CleanArchitecture.BlogManagement.Application.Post.Create;
 using CleanArchitecture.BlogManagement.Application.Post.CreateComment;
+using CleanArchitecture.BlogManagement.Application.Post.Delete;
 using CleanArchitecture.BlogManagement.Application.Post.DeleteComment;
 using CleanArchitecture.BlogManagement.Application.Post.Query;
+using CleanArchitecture.BlogManagement.Application.Post.Update;
 using CleanArchitecture.BlogManagement.Application.Post.UpdateComment;
+using CleanArchitecture.BlogManagement.Application.Post.UpdatePostStatus;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
 
@@ -14,10 +17,14 @@ public class Post : EndpointGroupBase
     {
         builder.MapGroup(this)
             //.RequireAuthorization()
+            .MapGet(GetAllPublishedPost)
             .MapGet(GetPostById, "{postId}")
             .MapPost(CreatePost)
+            .MapPut(UpdatePost, "{postId}")
+            .MapPut(UpdatePostStatus,"{postId}/status/change")
+            .MapDelete(DeletePost, "{postId}")
             .MapPost(AddComment, "{postId}/comment")
-            .MapPost(UpdateComment, "{postId}/comment/{commentId}")
+            .MapPut(UpdateComment, "{postId}/comment/{commentId}")
             .MapDelete(DeleteComment, "{postId}/comment/{commentId}");
     }
 
@@ -27,18 +34,43 @@ public class Post : EndpointGroupBase
         return ReturnResultValue(createdPost);
     }
 
+    private static async Task<IResult> UpdatePost(ISender sender, long postId, UpdatePostCommand command)
+    {
+        TwoValuesAreNotSameReturnBadRequest(command.PostId, postId);
+
+        var result = await sender.Send(command);
+        return ReturnResultValue(result);
+    }
+
+    private static async Task<IResult> UpdatePostStatus(ISender sender, long postId, UpdatePostStatusCommand command)
+    {
+        TwoValuesAreNotSameReturnBadRequest(command.PostId, postId);
+
+        var result = await sender.Send(command);
+        return ReturnResultValue(result);
+    }
+
     private static async Task<IResult> GetPostById(ISender sender, long postId)
     {
         var result = await sender.Send(new GetPostByIdQuery(postId));
         return ReturnResultValue(result);
     }
 
+    private static async Task<IResult> GetAllPublishedPost(ISender sender)
+    {
+        var result = await sender.Send(new GetAllPostQuery());
+        return ReturnResultValue(result);
+    }
+
+    private static async Task<IResult> DeletePost(ISender sender, long postId)
+    {
+        var result = await sender.Send(new DeletePostCommand(postId));
+        return ReturnResultValue(result);
+    }
+
     private static async Task<IResult> AddComment(ISender sender, long postId, CreateCommentCommand command)
     {
-        if (command.PostId != postId)
-        {
-            return Results.BadRequest("Invalid request");
-        }
+        TwoValuesAreNotSameReturnBadRequest(command.PostId, postId);
 
         var result = await sender.Send(command);
 
@@ -47,10 +79,9 @@ public class Post : EndpointGroupBase
 
     private static async Task<IResult> UpdateComment(ISender sender, long postId, long commentId, UpdateCommentCommand command)
     {
-        if (command.PostId != postId || command.CommentId != commentId)
-        {
-            return Results.BadRequest("Invalid request");
-        }
+        TwoValuesAreNotSameReturnBadRequest(command.PostId, postId);
+
+        TwoValuesAreNotSameReturnBadRequest(command.CommentId, commentId);
 
         var result = await sender.Send(command);
         return ReturnResultValue(result);

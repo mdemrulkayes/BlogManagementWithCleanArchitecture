@@ -1,4 +1,6 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
+using MediatR;
+using Microsoft.Extensions.Hosting;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
 public sealed class Post : BaseAuditableEntity, IAggregateRoot
@@ -33,13 +35,30 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
         return this;
     }
 
+    public void SetStatus(PostStatus status)
+    {
+        switch (status)
+        {
+            case PostStatus.Published:
+                this.MarkPostAsPublished();
+                break;
+            case PostStatus.Abandoned:
+                this.MarkPostAsAbandoned();
+                break;
+            case PostStatus.Draft:
+            default:
+                this.MarkPostAsDraft();
+                break;
+        }
+    }
+
     private void SetPostStatus(PostStatus status)
     {
         Status = status;
         PublishedAt = status == PostStatus.Published ? DateTimeOffset.UtcNow : null;
     }
 
-    public void MarkPostAsDraft() => SetPostStatus(PostStatus.Draft);
-    public void MarkPostAsPublished() => SetPostStatus(PostStatus.Published);
-    public void MarkPostAsAbandoned() => SetPostStatus(PostStatus.Abandoned);
+    private void MarkPostAsDraft() => SetPostStatus(PostStatus.Draft);
+    private void MarkPostAsPublished() => SetPostStatus(PostStatus.Published);
+    private void MarkPostAsAbandoned() => SetPostStatus(PostStatus.Abandoned);
 }

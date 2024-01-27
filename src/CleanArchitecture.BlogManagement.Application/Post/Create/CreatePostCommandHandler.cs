@@ -13,19 +13,7 @@ internal sealed class CreatePostCommandHandler(IPostRepository repository, IUnit
             return PostErrors.PostCanNotCreated;
         }
 
-        switch (request.Status)
-        {
-            case PostStatus.Published:
-                post.Value.MarkPostAsPublished();
-                break;
-            case PostStatus.Abandoned:
-                post.Value.MarkPostAsAbandoned();
-                break;
-            case PostStatus.Draft:
-            default:
-                post.Value.MarkPostAsDraft();
-                break;
-        }
+        post.Value.SetStatus(request.Status);
 
         await repository.Add(post.Value);
         await unitOfWork.CommitAsync(cancellationToken);

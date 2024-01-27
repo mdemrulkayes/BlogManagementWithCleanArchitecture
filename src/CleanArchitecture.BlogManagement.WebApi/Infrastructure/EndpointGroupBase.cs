@@ -11,4 +11,9 @@ public abstract class EndpointGroupBase
     {
         return result.IsSuccess ? Results.Ok(result.Value) : result.ConvertToProblemDetails();
     }
+
+    public static IResult TwoValuesAreNotSameReturnBadRequest(object firstOne, object secondOne)
+    {
+        return Results.BadRequest("Invalid operation");
+    }
 }
