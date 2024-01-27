@@ -2,7 +2,6 @@
 using CleanArchitecture.BlogManagement.Application.Tag.Delete;
 using CleanArchitecture.BlogManagement.Application.Tag.Query;
 using CleanArchitecture.BlogManagement.Application.Tag.Update;
-using CleanArchitecture.BlogManagement.WebApi.Extensions;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
 
@@ -24,20 +23,20 @@ public sealed class Tag : EndpointGroupBase
     private static async Task<IResult> GetAllTags(ISender sender)
     {
         var tags = await sender.Send(new GetAllTagsQuery());
-        return tags.IsSuccess ? Results.Ok(tags.Value) : tags.ConvertToProblemDetails();
+        return ReturnResultValue(tags);
     }
 
     private static async Task<IResult> GetTagDetailsById(ISender sender, long tagId)
     {
         var tag = await sender.Send(new GetTagByIdQuery(tagId));
-        return tag.IsSuccess ? Results.Ok(tag.Value) : tag.ConvertToProblemDetails();
+        return ReturnResultValue(tag);
     }
 
     private static async Task<IResult> CreateTag(ISender sender, CreateTagCommand command)
     {
         var createdTag = await sender.Send(command);
 
-        return createdTag.IsSuccess ? Results.Ok(value: createdTag.Value) : createdTag.ConvertToProblemDetails();
+        return ReturnResultValue(createdTag);
     }
 
     private static async Task<IResult> UpdateTag(ISender sender, long tagId, UpdateTagCommand command)
@@ -47,13 +46,13 @@ public sealed class Tag : EndpointGroupBase
             return Results.BadRequest("Invalid request");
         }
         var updatedTag = await sender.Send(command);
-        return updatedTag.IsSuccess ? Results.Ok(updatedTag.Value) : updatedTag.ConvertToProblemDetails();
+        return ReturnResultValue(updatedTag);
     }
 
     private static async Task<IResult> DeleteTag(ISender sender, long tagId)
     {
         var deleteTag = await sender.Send(new DeleteTagCommand(tagId));
 
-        return deleteTag.IsSuccess ? Results.Ok(deleteTag.Value) : deleteTag.ConvertToProblemDetails();
+        return ReturnResultValue(deleteTag);
     }
 }

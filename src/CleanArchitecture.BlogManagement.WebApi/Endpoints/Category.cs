@@ -2,7 +2,6 @@
 using CleanArchitecture.BlogManagement.Application.Category.Delete;
 using CleanArchitecture.BlogManagement.Application.Category.Query;
 using CleanArchitecture.BlogManagement.Application.Category.Update;
-using CleanArchitecture.BlogManagement.WebApi.Extensions;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
 
@@ -23,15 +22,13 @@ public sealed class Category : EndpointGroupBase
     private static async Task<IResult> GetCategories(ISender sender)
     {
         var categories = await sender.Send(new GetAllCategoriesQuery());
-        return Results.Ok(categories.Value);
+        return ReturnResultValue(categories);
     }
 
     private static async Task<IResult> CreateCategory(ISender sender, CreateCategoryCommand command)
     {
         var createdCategory = await sender.Send(command);
-        return createdCategory.IsSuccess
-            ? Results.Ok(createdCategory.Value)
-            : createdCategory.ConvertToProblemDetails();
+        return ReturnResultValue(createdCategory);
     }
 
     private static async Task<IResult> UpdateCategory(ISender sender, long categoryId, UpdateCategoryCommand command)
@@ -42,12 +39,12 @@ public sealed class Category : EndpointGroupBase
         }
 
         var category = await sender.Send(command);
-        return category.IsSuccess ? Results.Ok(category.Value) : category.ConvertToProblemDetails();
+        return ReturnResultValue(category);
     }
 
     private static async Task<IResult> DeleteCategory(ISender sender, long categoryId)
     {
         var deleteCategory = await sender.Send(new DeleteCategoryCommand(categoryId));
-        return deleteCategory.IsSuccess ? Results.Ok(deleteCategory.Value) : deleteCategory.ConvertToProblemDetails();
+        return ReturnResultValue(deleteCategory);
     }
 }

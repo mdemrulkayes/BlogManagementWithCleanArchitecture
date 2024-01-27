@@ -60,11 +60,22 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     {
         var updateToComment = _comments.FirstOrDefault(x => x.CommentId == commentId);
 
-        updateToComment?.Update(text);
+        if (updateToComment is null)
+        {
+            return; //TODO:Need to think about it
+        }
+
+        updateToComment.Update(text);
     }
 
     public void DeleteComment(long commentId)
     {
+        var deleteToComment = _comments.FirstOrDefault(x => x.CommentId == commentId);
+
+        if (deleteToComment is null)
+        {
+            return; //TODO:Need to think about it
+        }
         _comments.RemoveAll(x => x.CommentId == commentId);
     }
 }
