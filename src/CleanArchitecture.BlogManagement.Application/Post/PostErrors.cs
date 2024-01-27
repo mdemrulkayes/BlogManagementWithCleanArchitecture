@@ -8,6 +8,7 @@ internal struct PostErrors
 
     internal struct CommentErrors
     {
+        public static Error CommentCanNotCreated = Error.Failure("Comment.Create", "Comment can not created");
         public static Error CommentNotFound = Error.NotFound("Comment.Update", "Comment details not found");
     }
 }

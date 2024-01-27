@@ -23,9 +23,9 @@ internal sealed class UpdateCommentCommandHandler(IRepository repository, IUnitO
             return PostErrors.CommentErrors.CommentNotFound;
         }
 
-        postDetails.UpdateComment(request.CommentId, request.CommentText);
+        commentDetails.Update(request.CommentText);
 
-        await repository.Update(postDetails);
+        await repository.Update(commentDetails);
         await unitOfWork.CommitAsync(cancellationToken);
 
         return postDetails.PostId;

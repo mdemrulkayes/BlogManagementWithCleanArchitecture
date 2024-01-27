@@ -6,15 +6,20 @@ internal sealed class CreateCommentCommandHandler(IRepository repository, IUnitO
 {
     public async Task<Result<long>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
     {
-        var postDetails = await repository.FirstOrDefaultAsync<Core.PostAggregate.Post>(x => x.PostId == request.PostId, $"{nameof(Comment)}s");
+        var postDetails = await repository.FirstOrDefaultAsync<Core.PostAggregate.Post>(x => x.PostId == request.PostId);
         if (postDetails is null)
         {
             return PostErrors.NotFound;
         }
 
-        postDetails.AddComment(request.Text);
+        var comment = Comment.CreateComment(request.Text, request.PostId);
 
-        await repository.Update(postDetails);
+        if (!comment.IsSuccess || comment.Value is null)
+        {
+            return PostErrors.CommentErrors.CommentNotFound;
+        }
+
+        await repository.Add(comment.Value);
         await unitOfWork.CommitAsync(cancellationToken);
 
         return postDetails.PostId;

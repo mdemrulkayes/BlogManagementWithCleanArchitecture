@@ -45,37 +45,4 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     public void MarkPostAsDraft() => SetPostStatus(PostStatus.Draft);
     public void MarkPostAsPublished() => SetPostStatus(PostStatus.Published);
     public void MarkPostAsAbandoned() => SetPostStatus(PostStatus.Abandoned);
-
-    public void AddComment(string text)
-    {
-        var comment = Comment.CreateComment(text, PostId);
-        if (!comment.IsSuccess || comment.Value is null)
-        {
-            return; //TODO:Need to think about it
-        }
-        _comments.Add(comment.Value);
-    }
-
-    public void UpdateComment(long commentId, string text)
-    {
-        var updateToComment = _comments.FirstOrDefault(x => x.CommentId == commentId);
-
-        if (updateToComment is null)
-        {
-            return; //TODO:Need to think about it
-        }
-
-        updateToComment.Update(text);
-    }
-
-    public void DeleteComment(long commentId)
-    {
-        var deleteToComment = _comments.FirstOrDefault(x => x.CommentId == commentId);
-
-        if (deleteToComment is null)
-        {
-            return; //TODO:Need to think about it
-        }
-        _comments.RemoveAll(x => x.CommentId == commentId);
-    }
 }

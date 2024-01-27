@@ -23,9 +23,9 @@ internal sealed class DeleteCommentCommandHandler(IRepository repository, IUnitO
             return PostErrors.CommentErrors.CommentNotFound;
         }
 
-        postDetails.DeleteComment(request.CommentId);
+        commentDetails.Delete();
 
-        await repository.Update(postDetails);
+        await repository.Update(commentDetails);
         await unitOfWork.CommitAsync(cancellationToken);
 
         return postDetails.PostId;
