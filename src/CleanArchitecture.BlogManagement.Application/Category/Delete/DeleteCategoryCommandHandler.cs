@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Category;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Delete;
 internal sealed class DeleteCategoryCommandHandler(IRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<DeleteCategoryCommand, Result<bool>>

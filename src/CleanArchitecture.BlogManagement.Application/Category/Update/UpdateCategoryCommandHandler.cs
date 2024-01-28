@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Category;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Update;
 internal sealed class UpdateCategoryCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<UpdateCategoryCommand, Result<CategoryResponse>>
