@@ -1,6 +1,6 @@
 # Blog Management With clean architecture and domain-driven design
 
-### <ins>[Project Overview](#)</ins>
+### <ins>Project Overview</ins>
 An experimental API project that uses Domain-Driven Design (DDD) principles and Clean Architecture to manage a blog. The project uses various tools and technologies, including [**ASP.NET Core 8 Identity**](https://devblogs.microsoft.com/dotnet/improvements-auth-identity-aspnetcore-8/) to manage users and roles. I have implemented a basic version of the Identity framework without any changes. Users can create categories, tags, and blog posts using DDD principles. To improve performance, I have avoided exception throwing without unhandled exceptions and used the Result pattern to provide clearer aspects of known errors and convert those errors to the [**ProblemDetails pattern**](https://code-maze.com/using-the-problemdetails-class-in-asp-net-core-web-api/).
 
 <p float="left">
@@ -10,7 +10,7 @@ An experimental API project that uses Domain-Driven Design (DDD) principles and 
 </p>
 
 
-### <ins>[Tools & Technologies](#)</ins>
+### <ins>Tools & Technologies</ins>
 <ul>
   <li>Visual Studio 2022</li>
   <li>ASP.NET Core 8</li>
