@@ -14,7 +14,7 @@ public sealed class Tag : BaseAuditableEntity
         Description = description;
     }
 
-    public static Result<Tag> Create(string name, string description)
+    public static Result<Tag> Create(string name, string description = "")
     {
         //Below validations are already checked by FluentValidation. This is an example to implement business validation here
         if (string.IsNullOrWhiteSpace(name))

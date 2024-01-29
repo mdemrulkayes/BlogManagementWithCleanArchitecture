@@ -17,6 +17,8 @@ public sealed class CategoryUnitTest
 
         Assert.True(category.IsSuccess);
         Assert.NotNull(category.Value);
+        Assert.Equal(categoryName, category.Value.Name);
+        Assert.Equal(description, category.Value.Description);
         Assert.IsType<Result<Category.Category>>(category);
     }
 
