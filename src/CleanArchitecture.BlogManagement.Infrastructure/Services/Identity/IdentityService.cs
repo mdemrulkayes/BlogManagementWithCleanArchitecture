@@ -14,4 +14,11 @@ internal sealed class IdentityService(IHttpContextAccessor httpContextAccessor) 
         Guid.Parse(httpContextAccessor.HttpContext?.User?.Claims
                        ?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.ToString() ??
                    Guid.NewGuid().ToString());
+
+    public Task<bool> IsValidUser()
+    {
+        //Get the user details from Identity database
+        var userId = UserId;
+        return Task.FromResult(true);
+    }
 }
