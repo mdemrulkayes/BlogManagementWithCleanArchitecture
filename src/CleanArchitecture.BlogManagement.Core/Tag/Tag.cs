@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Core.Tag;
 
@@ -7,6 +8,8 @@ public sealed class Tag : BaseAuditableEntity
     public long TagId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
+
+    public IEnumerable<PostTag> PostTags { get; private set; }
 
     private Tag(string name, string description)
     {

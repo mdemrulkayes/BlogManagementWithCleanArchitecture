@@ -12,6 +12,8 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     public DateTimeOffset? PublishedAt { get; private set; }
     public string Text { get; private set; }
     public IEnumerable<Comment> Comments { get; private set; }
+    public IEnumerable<PostTag> PostTags { get; private set; }
+    public IEnumerable<PostCategory> PostCategories { get; private set; }
 
     private Post(string title, string slug, string text)
     {
