@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
+﻿using System.Collections.ObjectModel;
+using CleanArchitecture.BlogManagement.Core.Base;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
 public sealed class Post : BaseAuditableEntity, IAggregateRoot
@@ -11,7 +12,9 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     public string Text { get; private set; }
     public IEnumerable<Comment> Comments { get; private set; } = new List<Comment>();
     public IEnumerable<PostTag> PostTags { get; private set; } = new List<PostTag>();
-    public IEnumerable<PostCategory> PostCategories { get; private set; } = new List<PostCategory>();
+    public IReadOnlyCollection<PostCategory> PostCategories => new ReadOnlyCollection<PostCategory>(_postCategories);
+
+    internal List<PostCategory> _postCategories = new ();
 
     private Post(string title, string slug, string text)
     {
@@ -61,4 +64,22 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     private void MarkPostAsDraft() => SetPostStatus(PostStatus.Draft);
     private void MarkPostAsPublished() => SetPostStatus(PostStatus.Published);
     private void MarkPostAsAbandoned() => SetPostStatus(PostStatus.Abandoned);
+
+    public Result<Post> AddPostCategory(List<long> categoryIds)
+    {
+        if (categoryIds.Count <= 0)
+        {
+            return PostErrors.PostCategoriesAreRequired;
+        }
+
+        foreach (var postCategory in categoryIds.Select(categoryId => PostCategory.Create(categoryId, PostId)))
+        {
+            if (!postCategory.IsSuccess || postCategory.Value is null)
+            {
+                return postCategory.Error;
+            }
+            _postCategories.Add(postCategory.Value);
+        }
+        return this;
+    }
 }

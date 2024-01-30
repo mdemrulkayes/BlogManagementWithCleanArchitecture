@@ -11,4 +11,18 @@ public sealed class PostCategory : BaseEntity
     public long PostId { get; private set; }
     public Post Post { get; private set; }
 
+    private PostCategory(long categoryId, long postId)
+    {
+        CategoryId = categoryId;
+        PostId = postId;
+    }
+
+    public static Result<PostCategory> Create(long categoryId, long postId)
+    {
+        if (categoryId <= 0)
+        {
+            return PostErrors.PostCategoryErrors.InvalidCategoryId;
+        }
+        return new PostCategory(categoryId, postId);
+    }
 }
