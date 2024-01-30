@@ -2,7 +2,7 @@
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.UpdateComment;
-internal sealed class UpdateCommentCommandHandler(IPostRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<UpdateCommentCommand, Result<long>>
+internal sealed class UpdateCommentCommandHandler(IPostRepository repository, ICommentRepository commentRepository, IUnitOfWork unitOfWork) : ICommandHandler<UpdateCommentCommand, Result<long>>
 {
     /// <summary>Handles a request</summary>
     /// <param name="request">The request</param>
@@ -24,7 +24,7 @@ internal sealed class UpdateCommentCommandHandler(IPostRepository repository, IU
 
         commentDetails.Update(request.CommentText);
 
-        await repository.Update(commentDetails);
+        await commentRepository.Update(commentDetails);
         await unitOfWork.CommitAsync(cancellationToken);
 
         return postDetails.PostId;

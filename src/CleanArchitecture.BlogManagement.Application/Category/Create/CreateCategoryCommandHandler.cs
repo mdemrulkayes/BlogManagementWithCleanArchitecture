@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Category;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Create;
-internal class CreateCategoryCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<CreateCategoryCommand, Result<CategoryResponse>>
+internal class CreateCategoryCommandHandler(ICategoryRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<CreateCategoryCommand, Result<CategoryResponse>>
 {
     public async Task<Result<CategoryResponse>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken = default)
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PostCore = CleanArchitecture.BlogManagement.Core.PostAggregate.Post;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence.Post;
-internal sealed class PostRepository(BlogDbContext dbContext) : Repository(dbContext), IPostRepository
+internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostCore>(dbContext), IPostRepository
 {
     private readonly BlogDbContext _dbContext = dbContext;
 
@@ -35,5 +35,19 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository(dbCon
             .Comments
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.CommentId == commentId, cancellationToken);
+    }
+
+    public async Task<IEnumerable<PostCore>> GetAllPosts(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Posts
+            .Include(x => x.Comments
+                .Where(y => !y.IsDeleted)
+                .Take(5)
+                .OrderByDescending(y => y.CreatedDate)
+            )
+            .AsNoTracking()
+            .OrderByDescending(x => x.CreatedDate)
+            .ToListAsync(cancellationToken);
     }
 }

@@ -3,13 +3,13 @@ using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Update;
-internal sealed class UpdateTagCommandHandler(IRepository repository,
+internal sealed class UpdateTagCommandHandler(ITagRepository repository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : ICommandHandler<UpdateTagCommand, Result<TagResponse>>
 {
     public async Task<Result<TagResponse>> Handle(UpdateTagCommand request, CancellationToken cancellationToken = default)
     {
-        var tag = await repository.FirstOrDefaultAsync<Core.Tag.Tag>(x => x.TagId == request.TagId);
+        var tag = await repository.FirstOrDefaultAsync(x => x.TagId == request.TagId);
         if (tag == null)
         {
             return TagErrors.TagNotFound;

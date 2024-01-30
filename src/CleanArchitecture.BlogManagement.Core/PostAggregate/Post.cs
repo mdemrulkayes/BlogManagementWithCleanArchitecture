@@ -1,6 +1,4 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
-using MediatR;
-using Microsoft.Extensions.Hosting;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
 public sealed class Post : BaseAuditableEntity, IAggregateRoot
@@ -11,9 +9,9 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     public PostStatus Status { get; private set; }
     public DateTimeOffset? PublishedAt { get; private set; }
     public string Text { get; private set; }
-    public IEnumerable<Comment> Comments { get; private set; }
-    public IEnumerable<PostTag> PostTags { get; private set; }
-    public IEnumerable<PostCategory> PostCategories { get; private set; }
+    public IEnumerable<Comment> Comments { get; private set; } = new List<Comment>();
+    public IEnumerable<PostTag> PostTags { get; private set; } = new List<PostTag>();
+    public IEnumerable<PostCategory> PostCategories { get; private set; } = new List<PostCategory>();
 
     private Post(string title, string slug, string text)
     {

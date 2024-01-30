@@ -1,12 +1,11 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
+﻿using CleanArchitecture.BlogManagement.Core.Tag;
 using FluentValidation;
-using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Create;
 public sealed class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
 {
-    private readonly IRepository _repository;
-    public CreateTagCommandValidator(IRepository repository)
+    private readonly ITagRepository _repository;
+    public CreateTagCommandValidator(ITagRepository repository)
     {
         _repository = repository;
         RuleFor(x => x.Name)
@@ -16,7 +15,7 @@ public sealed class CreateTagCommandValidator : AbstractValidator<CreateTagComma
             .WithMessage("Name can not be less than 5 characters and can not be more than 50 characters")
             .MustAsync(async (name, token) =>
             {
-                var isNameAlreadyExists = await repository.AnyAsync<TagCore>(x =>
+                var isNameAlreadyExists = await repository.AnyAsync(x =>
                     x.Name.ToLower() == name.ToLower());
                 return !isNameAlreadyExists;
             })

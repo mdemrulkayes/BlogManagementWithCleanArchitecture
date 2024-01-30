@@ -2,7 +2,7 @@
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.CreateComment;
-internal sealed class CreateCommentCommandHandler(IPostRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<CreateCommentCommand, Result<long>>
+internal sealed class CreateCommentCommandHandler(IPostRepository repository, ICommentRepository commentRepository, IUnitOfWork unitOfWork) : ICommandHandler<CreateCommentCommand, Result<long>>
 {
     public async Task<Result<long>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
     {
@@ -19,7 +19,7 @@ internal sealed class CreateCommentCommandHandler(IPostRepository repository, IU
             return PostErrors.CommentErrors.CommentNotFound;
         }
 
-        await repository.Add(comment.Value);
+        await commentRepository.Add(comment.Value);
         await unitOfWork.CommitAsync(cancellationToken);
 
         return postDetails.PostId;

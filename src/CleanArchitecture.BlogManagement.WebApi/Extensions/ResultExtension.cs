@@ -1,5 +1,4 @@
 ﻿using CleanArchitecture.BlogManagement.Core.Base;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Extensions;

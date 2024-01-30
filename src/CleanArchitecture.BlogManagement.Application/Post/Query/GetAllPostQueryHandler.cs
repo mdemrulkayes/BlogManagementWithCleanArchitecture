@@ -12,11 +12,7 @@ internal sealed class GetAllPostQueryHandler(IPostRepository repository, IMapper
     public async Task<Result<List<PostResponse>>> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
     {
         var allPosts = await repository
-            .FindAsync<Core.PostAggregate.Post>(
-                x => x.Status == PostStatus.Published,
-
-            y => y.OrderByDescending(z => z.CreatedDate),
-                cancellationToken);
+            .GetAllPosts(cancellationToken);
 
         return mapper.Map<List<PostResponse>>(allPosts);
     }

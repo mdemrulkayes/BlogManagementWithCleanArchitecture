@@ -4,10 +4,10 @@ using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence;
-internal class Repository(BlogDbContext dbContext) : IRepository
+internal class Repository<TEntity>(BlogDbContext dbContext) 
+    : IRepository<TEntity> where TEntity : BaseEntity
 {
-    public async Task<TEntity> Add<TEntity>(TEntity entity)
-        where TEntity : BaseEntity
+    public async Task<TEntity> Add(TEntity entity)
     {
         var addedEntity = dbContext
             .Set<TEntity>()
@@ -17,8 +17,7 @@ internal class Repository(BlogDbContext dbContext) : IRepository
             .FromResult(addedEntity);
     }
 
-    public async Task<TEntity> Update<TEntity>(TEntity entity)
-        where TEntity : BaseEntity
+    public async Task<TEntity> Update(TEntity entity)
     {
         var updatedEntity = dbContext
             .Set<TEntity>()
@@ -28,8 +27,7 @@ internal class Repository(BlogDbContext dbContext) : IRepository
             .FromResult(updatedEntity);
     }
 
-    public async Task Delete<TEntity>(TEntity entity) 
-        where TEntity : BaseEntity
+    public async Task Delete(TEntity entity) 
     {
         dbContext
             .Set<TEntity>()
@@ -38,8 +36,7 @@ internal class Repository(BlogDbContext dbContext) : IRepository
             .CompletedTask;
     }
 
-    public async Task Delete<TEntity>(Expression<Func<TEntity, bool>> expression)
-        where TEntity : BaseEntity
+    public async Task Delete(Expression<Func<TEntity, bool>> expression)
     {
         var data = await dbContext
             .Set<TEntity>()
@@ -54,11 +51,10 @@ internal class Repository(BlogDbContext dbContext) : IRepository
             .CompletedTask;
     }
 
-    public async Task<TEntity?> FirstOrDefaultAsync<TEntity>(
+    public async Task<TEntity?> FirstOrDefaultAsync(
         Expression<Func<TEntity, bool>> expression,
         string includeProperties = ""
         )
-        where TEntity : BaseEntity
     {
         var query = dbContext
             .Set<TEntity>()
@@ -77,41 +73,7 @@ internal class Repository(BlogDbContext dbContext) : IRepository
             .FirstOrDefaultAsync(expression);
     }
 
-    public IQueryable<TEntity> FindQueryable<TEntity>(
-        Expression<Func<TEntity, bool>> expression,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null
-        ) 
-        where TEntity : BaseEntity
-    {
-        var query = dbContext
-            .Set<TEntity>()
-            .AsNoTracking()
-            .Where(expression);
-
-        return orderBy != null 
-            ? orderBy(query) 
-            : query;
-    }
-
-    public async Task<List<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>>? expression, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default) where TEntity : class
-    {
-        var query = expression != null
-            ? dbContext
-                .Set<TEntity>()
-                .AsNoTracking()
-                .Where(expression)
-            : dbContext
-                .Set<TEntity>()
-                .AsNoTracking();
-
-        return orderBy != null
-            ? await orderBy(query)
-                .ToListAsync(cancellationToken)
-            : await query
-                .ToListAsync(cancellationToken);
-    }
-
-    public async Task<List<TEntity>> FindAllAsync<TEntity>(CancellationToken cancellationToken) where TEntity : BaseEntity
+    public async Task<List<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>>? expression = null, CancellationToken cancellationToken = default)
     {
         return await dbContext
             .Set<TEntity>()
@@ -119,7 +81,7 @@ internal class Repository(BlogDbContext dbContext) : IRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : BaseEntity
+    public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
     {
         return await dbContext
             .Set<TEntity>()

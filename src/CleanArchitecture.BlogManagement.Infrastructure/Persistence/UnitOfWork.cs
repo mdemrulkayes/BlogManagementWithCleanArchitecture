@@ -2,7 +2,7 @@
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence;
-internal class UnitOfWork(BlogDbContext dbContext, IRepository repository) : IUnitOfWork
+internal class UnitOfWork(BlogDbContext dbContext) : IUnitOfWork
 {
     private bool _disposed;
     public void Dispose()
@@ -10,8 +10,6 @@ internal class UnitOfWork(BlogDbContext dbContext, IRepository repository) : IUn
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-
-    public IRepository Repository => repository;
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken)
     {

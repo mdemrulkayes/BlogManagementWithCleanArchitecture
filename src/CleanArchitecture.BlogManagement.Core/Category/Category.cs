@@ -8,7 +8,7 @@ public sealed class Category : BaseAuditableEntity
     public long CategoryId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public IEnumerable<PostCategory> PostCategories { get; private set; }
+    public IEnumerable<PostCategory> PostCategories { get; private set; } = new List<PostCategory>();
 
     private Category(string name, string description)
     {

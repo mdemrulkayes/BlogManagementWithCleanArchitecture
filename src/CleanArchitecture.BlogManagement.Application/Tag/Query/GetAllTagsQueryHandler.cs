@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Core.Base;
-using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
+using CleanArchitecture.BlogManagement.Core.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Query;
-internal sealed class GetAllTagsQueryHandler(IRepository repository, IMapper mapper) : IQueryHandler<GetAllTagsQuery, Result<List<TagResponse>>>
+internal sealed class GetAllTagsQueryHandler(ITagRepository repository, IMapper mapper) : IQueryHandler<GetAllTagsQuery, Result<List<TagResponse>>>
 {
     public async Task<Result<List<TagResponse>>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
     {
-        var results = await repository.FindAllAsync<TagCore>(cancellationToken);
+        var results = await repository.GetAllTags(cancellationToken);
         return mapper.Map<List<TagResponse>>(results);
     }
 }

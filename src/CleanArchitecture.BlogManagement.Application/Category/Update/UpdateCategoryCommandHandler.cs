@@ -3,12 +3,12 @@ using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Update;
-internal sealed class UpdateCategoryCommandHandler(IRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<UpdateCategoryCommand, Result<CategoryResponse>>
+internal sealed class UpdateCategoryCommandHandler(ICategoryRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<UpdateCategoryCommand, Result<CategoryResponse>>
 {
     public async Task<Result<CategoryResponse>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category =
-            await repository.FirstOrDefaultAsync<Core.Category.Category>(x => x.CategoryId == request.CategoryId);
+            await repository.FirstOrDefaultAsync(x => x.CategoryId == request.CategoryId);
         if (category == null)
         {
             return CategoryErrors.NotFound;

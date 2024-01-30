@@ -9,7 +9,7 @@ public sealed class Tag : BaseAuditableEntity
     public string Name { get; private set; }
     public string Description { get; private set; }
 
-    public IEnumerable<PostTag> PostTags { get; private set; }
+    public IEnumerable<PostTag> PostTags { get; private set; } = new List<PostTag>();
 
     private Tag(string name, string description)
     {

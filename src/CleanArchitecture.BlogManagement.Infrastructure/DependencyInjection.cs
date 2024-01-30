@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection.Metadata;
+using CleanArchitecture.BlogManagement.Core.Category;
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using CleanArchitecture.BlogManagement.Core.Tag;
+using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Category;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Post;
+using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Tag;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure;
 public static class DependencyInjection
@@ -59,8 +62,11 @@ public static class DependencyInjection
     private static void RegisterServices(this IServiceCollection services)
     {
         services.RegisterIdentityServices();
-        services.AddScoped<IRepository, Repository>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 

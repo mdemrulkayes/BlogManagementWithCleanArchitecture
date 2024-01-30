@@ -2,7 +2,7 @@
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.DeleteComment;
-internal sealed class DeleteCommentCommandHandler(IPostRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<DeleteCommentCommand, Result<long>>
+internal sealed class DeleteCommentCommandHandler(IPostRepository repository, ICommentRepository commentRepository, IUnitOfWork unitOfWork) : ICommandHandler<DeleteCommentCommand, Result<long>>
 {
     /// <summary>Handles a request</summary>
     /// <param name="request">The request</param>
@@ -24,7 +24,7 @@ internal sealed class DeleteCommentCommandHandler(IPostRepository repository, IU
 
         commentDetails.Delete();
 
-        await repository.Update(commentDetails);
+        await commentRepository.Update(commentDetails);
         await unitOfWork.CommitAsync(cancellationToken);
 
         return postDetails.PostId;
