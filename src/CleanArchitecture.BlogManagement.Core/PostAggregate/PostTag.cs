@@ -3,8 +3,6 @@
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
 public sealed class PostTag : BaseEntity
 {
-    public long PostTagId { get; private set; }
-
     public long PostId { get; private set; }
     public Post Post { get; private set; }
 

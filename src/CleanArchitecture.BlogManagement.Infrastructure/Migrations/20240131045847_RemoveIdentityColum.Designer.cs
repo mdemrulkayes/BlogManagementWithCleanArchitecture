@@ -4,6 +4,7 @@ using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitecture.BlogManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    partial class BlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240131045847_RemoveIdentityColum")]
+    partial class RemoveIdentityColum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,9 +152,6 @@ namespace CleanArchitecture.BlogManagement.Infrastructure.Migrations
 
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTimeOffset>("DateAdded")
-                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("PostId", "CategoryId");
 

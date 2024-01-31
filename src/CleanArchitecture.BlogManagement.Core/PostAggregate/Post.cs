@@ -65,21 +65,16 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     private void MarkPostAsPublished() => SetPostStatus(PostStatus.Published);
     private void MarkPostAsAbandoned() => SetPostStatus(PostStatus.Abandoned);
 
-    public Result<Post> AddPostCategory(List<long> categoryIds)
+    public Result<Post> AddPostCategory(Category.Category category)
     {
-        if (categoryIds.Count <= 0)
+        var postCategory = PostCategory.Create(category, this);
+        if (!postCategory.IsSuccess || postCategory.Value is null)
         {
-            return PostErrors.PostCategoriesAreRequired;
+            return postCategory.Error;
         }
 
-        foreach (var postCategory in categoryIds.Select(categoryId => PostCategory.Create(categoryId, PostId)))
-        {
-            if (!postCategory.IsSuccess || postCategory.Value is null)
-            {
-                return postCategory.Error;
-            }
-            _postCategories.Add(postCategory.Value);
-        }
+        _postCategories.Add(postCategory.Value);
+
         return this;
     }
 }

@@ -26,6 +26,8 @@ namespace CleanArchitecture.BlogManagement.Infrastructure.Configurations
             builder
                 .Property(x => x.IsDeleted)
                 .HasDefaultValue(false);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

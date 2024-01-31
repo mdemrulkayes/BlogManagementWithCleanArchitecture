@@ -22,7 +22,7 @@ public class PostUnitTest
     public void Create_Post_Add_Category_Should_Return_Success_With_CategoryList(string title, string description, string slug)
     {
         //Arrange
-        var expectedNumberOfCategories = 3;
+        var expectedNumberOfCategories = 1;
 
         //Act
         var post = Post.CreatePost(title, slug, description);
@@ -33,7 +33,11 @@ public class PostUnitTest
 
         Assert.Empty(post.Value.PostCategories);
 
-        post.Value.AddPostCategory([1, 2, 3]);
+        var category1 = Category.Category.Create("category1", "this is category description");
+
+        Assert.NotNull(category1.Value);
+
+        post.Value.AddPostCategory(category1.Value);
 
         //Assert
 
@@ -51,9 +55,9 @@ public class PostUnitTest
 
         Assert.NotNull(post.Value);
 
-        var result = post.Value.AddPostCategory([0, 2, 4]);
+        var result = post.Value.AddPostCategory(null);
 
         //Assert
-        Assert.Equal(PostErrors.PostCategoryErrors.InvalidCategoryId, result.Error);
+        Assert.Equal(PostErrors.PostCategoryErrors.InvalidCategory, result.Error);
     }
 }

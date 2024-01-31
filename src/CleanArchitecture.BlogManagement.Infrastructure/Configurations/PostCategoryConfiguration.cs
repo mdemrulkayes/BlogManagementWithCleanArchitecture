@@ -17,10 +17,6 @@ internal sealed class PostCategoryConfiguration : IEntityTypeConfiguration<PostC
         builder
             .HasKey(x => new { x.PostId, x.CategoryId });
 
-        builder
-            .Property(x => x.PostCategoryId)
-            .ValueGeneratedOnAdd();
-
         builder.HasOne(x => x.Post)
             .WithMany(x => x.PostCategories)
             .HasForeignKey(x => x.PostId);

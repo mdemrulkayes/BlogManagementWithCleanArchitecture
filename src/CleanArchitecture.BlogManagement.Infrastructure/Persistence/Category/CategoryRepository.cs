@@ -15,4 +15,11 @@ internal sealed class CategoryRepository(BlogDbContext dbContext)
             .Categories
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<CategoryCore?> GetCategoriesByIds(long categoryId, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Categories
+            .FirstOrDefaultAsync(x => x.CategoryId == categoryId, cancellationToken);
+    }
 }

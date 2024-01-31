@@ -13,10 +13,10 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
         return await _dbContext
             .Posts
             .Include(x => x.Comments
-                .Where(y => !y.IsDeleted)
                 .Take(5)
                 .OrderByDescending(y => y.CreatedDate)
             )
+            .Include(x => x.PostCategories)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.PostId == postId, cancellationToken);
     }
@@ -42,12 +42,20 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
         return await _dbContext
             .Posts
             .Include(x => x.Comments
-                .Where(y => !y.IsDeleted)
                 .Take(5)
                 .OrderByDescending(y => y.CreatedDate)
             )
             .AsNoTracking()
             .OrderByDescending(x => x.CreatedDate)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<PostCore?> GetPostDetailsWithCategories(long postId, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Posts
+            .Include(x => x.PostCategories)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.PostId == postId, cancellationToken);
     }
 }
