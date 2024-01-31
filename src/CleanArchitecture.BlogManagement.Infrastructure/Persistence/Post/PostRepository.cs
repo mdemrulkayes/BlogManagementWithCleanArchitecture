@@ -55,7 +55,14 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
         return await _dbContext
             .Posts
             .Include(x => x.PostCategories)
-            //.AsNoTracking()
+            .FirstOrDefaultAsync(x => x.PostId == postId, cancellationToken);
+    }
+
+    public async Task<PostCore?> GetPostDetailsWithTags(long postId, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Posts
+            .Include(x => x.PostTags)
             .FirstOrDefaultAsync(x => x.PostId == postId, cancellationToken);
     }
 }

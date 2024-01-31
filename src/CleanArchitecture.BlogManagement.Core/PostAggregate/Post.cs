@@ -11,10 +11,11 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
     public DateTimeOffset? PublishedAt { get; private set; }
     public string Text { get; private set; }
     public IEnumerable<Comment> Comments { get; private set; } = new List<Comment>();
-    public IEnumerable<PostTag> PostTags { get; private set; } = new List<PostTag>();
+    public IReadOnlyCollection<PostTag> PostTags => new ReadOnlyCollection<PostTag>(_postTags);
     public IReadOnlyCollection<PostCategory> PostCategories => new ReadOnlyCollection<PostCategory>(_postCategories);
 
-    internal List<PostCategory> _postCategories = new ();
+    internal List<PostCategory> _postCategories = [];
+    internal List<PostTag> _postTags = [];
 
     private Post(string title, string slug, string text)
     {
@@ -87,6 +88,31 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
         }
 
         _postCategories.Remove(postCategory);
+        return this;
+    }
+
+    public Result<Post> AddPostTag(Tag.Tag tag)
+    {
+        var createdPostTag = PostTag.Create(tag, this);
+        if (!createdPostTag.IsSuccess || createdPostTag.Value is null)
+        {
+            return createdPostTag.Error;
+        }
+
+        _postTags.Add(createdPostTag.Value);
+        return this;
+    }
+
+    public Result<Post> RemovePostTag(long tagId)
+    {
+        var postTagDetails = _postTags.FirstOrDefault(x => x.TagId == tagId);
+        if (postTagDetails is null)
+        {
+            return PostErrors.PostTagErrors.InvalidTag;
+        }
+
+        _postTags.Remove(postTagDetails);
+
         return this;
     }
 }

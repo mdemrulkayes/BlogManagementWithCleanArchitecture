@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.BlogManagement.Application.Post.AddPostCategory;
+using CleanArchitecture.BlogManagement.Application.Post.AddPostTag;
 using CleanArchitecture.BlogManagement.Application.Post.Create;
 using CleanArchitecture.BlogManagement.Application.Post.CreateComment;
 using CleanArchitecture.BlogManagement.Application.Post.Delete;
@@ -29,7 +30,8 @@ public class Post : EndpointGroupBase
             .MapPut(UpdateComment, "{postId}/comment/{commentId}")
             .MapDelete(DeleteComment, "{postId}/comment/{commentId}")
             .MapPut(AddCategory, "{postId}/category/add")
-            .MapDelete(RemoveCategory, "{postId}/category/remove/{categoryId}");
+            .MapDelete(RemoveCategory, "{postId}/category/remove/{categoryId}")
+            .MapPut(AddPostTag, "{postId}/tag/add");
     }
 
     private static async Task<IResult> CreatePost(ISender sender, CreatePostCommand command)
@@ -108,6 +110,13 @@ public class Post : EndpointGroupBase
     {
         var result = await sender.Send(new DeletePostCategoryCommand(postId, categoryId));
 
+        return ReturnResultValue(result);
+    }
+
+    private static async Task<IResult> AddPostTag(ISender sender, long postId, AddPostTagCommand command)
+    {
+        TwoValuesAreNotSameReturnBadRequest(postId, command.PostId);
+        var result = await sender.Send(command);
         return ReturnResultValue(result);
     }
 }

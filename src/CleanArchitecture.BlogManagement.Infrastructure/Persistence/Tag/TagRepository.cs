@@ -14,4 +14,11 @@ internal sealed class TagRepository(BlogDbContext dbContext) : Repository<TagCor
             .Tags
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<TagCore?> GetTagDetailsByText(string tagText, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Tags
+            .FirstOrDefaultAsync(x => x.Name == tagText, cancellationToken);
+    }
 }

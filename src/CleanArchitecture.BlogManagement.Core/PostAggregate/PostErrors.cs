@@ -19,4 +19,9 @@ public struct PostErrors
     {
         public static Error InvalidCategory = Error.Validation("Post.PostCategory", "Invalid category");
     }
+
+    public struct PostTagErrors
+    {
+        public static Error InvalidTag = Error.Validation("Post.PostTag", "Invalid tag");
+    }
 }
