@@ -60,4 +60,22 @@ public class PostUnitTest
         //Assert
         Assert.Equal(PostErrors.PostCategoryErrors.InvalidCategory, result.Error);
     }
+
+    [Fact]
+    public void Delete_Post_Category_Return_Empty_PostCategories_From_PostDetails()
+    {
+        //Arrange
+        var post = Post.CreatePost("New Post", "this is new post description", "new-post").Value;
+
+        var category = Category.Category.Create("Category", "Category details").Value;
+
+        post.AddPostCategory(category);
+
+        Assert.NotEmpty(post.PostCategories);
+
+        var removedCategory = post.RemovePostCategory(category.CategoryId);
+        Assert.True(removedCategory.IsSuccess);
+        Assert.NotNull(removedCategory.Value);
+        Assert.Empty(post.PostCategories);
+    }
 }

@@ -18,7 +18,7 @@ internal sealed class AuditableEntityInterceptor(ILogger<AuditableEntityIntercep
         if (context is not null)
         {
             var trackedEntries = context.ChangeTracker.Entries<BaseAuditableEntity>()
-                .Where(e => e.State is EntityState.Added or EntityState.Modified)
+                .Where(e => e.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
                 .ToList();
             foreach (var entry in trackedEntries)
             {

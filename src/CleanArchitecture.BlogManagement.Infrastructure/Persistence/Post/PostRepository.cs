@@ -55,7 +55,7 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
         return await _dbContext
             .Posts
             .Include(x => x.PostCategories)
-            .AsNoTracking()
+            //.AsNoTracking()
             .FirstOrDefaultAsync(x => x.PostId == postId, cancellationToken);
     }
 }

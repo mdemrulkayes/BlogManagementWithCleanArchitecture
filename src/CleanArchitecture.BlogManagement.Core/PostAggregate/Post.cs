@@ -77,4 +77,16 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
 
         return this;
     }
+
+    public Result<Post> RemovePostCategory(long categoryId)
+    {
+        var postCategory = _postCategories.Find(x => x.CategoryId == categoryId);
+        if (postCategory is null)
+        {
+            return PostErrors.PostCategoryErrors.InvalidCategory;
+        }
+
+        _postCategories.Remove(postCategory);
+        return this;
+    }
 }
