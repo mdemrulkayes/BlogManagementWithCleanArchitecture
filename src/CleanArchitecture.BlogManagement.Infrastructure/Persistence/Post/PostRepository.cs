@@ -19,6 +19,9 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
                 .OrderByDescending(y => y.CreatedDate)
             )
             .Include(x => x.PostCategories)
+            .ThenInclude(c => c.Category)
+            .Include(x => x.PostTags)
+            .ThenInclude(t => t.Tag)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.PostId == postId, cancellationToken);
     }
@@ -47,6 +50,10 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
                 .Take(5)
                 .OrderByDescending(y => y.CreatedDate)
             )
+            .Include(x => x.PostCategories)
+            .ThenInclude(c => c.Category)
+            .Include(x => x.PostTags)
+            .ThenInclude(t => t.Tag)
             .OrderByDescending(x => x.CreatedDate)
             .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }

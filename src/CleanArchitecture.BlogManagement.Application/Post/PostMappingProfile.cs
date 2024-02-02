@@ -15,13 +15,27 @@ internal sealed class PostMappingProfile : Profile
                     Status: post.Status,
                     StatusText: post.Status.ToString(),
                     Text: post.Text,
-                    Comments: context.Mapper.Map<List<CommentResponse>>(post.Comments)
+                    Comments: context.Mapper.Map<List<CommentResponse>>(post.Comments),
+                    Categories: context.Mapper.Map<List<PostCategoryResponse>>(post.PostCategories),
+                    Tags: context.Mapper.Map<List<PostTagResponse>>(post.PostTags)
                 ))
             .ReverseMap();
 
         CreateMap<Comment, CommentResponse>()
             .ConstructUsing(x =>
                 new CommentResponse(x.CommentId, x.Text)
+            )
+            .ReverseMap();
+
+        CreateMap<PostCategory, PostCategoryResponse>()
+            .ConstructUsing(x => 
+                new PostCategoryResponse(x.CategoryId, x.Category.Name)
+            )
+            .ReverseMap();
+
+        CreateMap<PostTag, PostTagResponse>()
+            .ConstructUsing(x =>
+                new PostTagResponse(x.TagId, x.Tag.Name)
             )
             .ReverseMap();
     }

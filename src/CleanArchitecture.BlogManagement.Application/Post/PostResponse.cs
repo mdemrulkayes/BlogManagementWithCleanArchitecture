@@ -9,5 +9,6 @@ public sealed record PostResponse(
     PostStatus Status,
     string StatusText,
     string Text,
-    List<CommentResponse> Comments)
-    ;
+    List<CommentResponse> Comments,
+    List<PostCategoryResponse> Categories,
+    List<PostTagResponse> Tags);
