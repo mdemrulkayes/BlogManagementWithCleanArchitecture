@@ -99,6 +99,11 @@ public sealed class Post : BaseAuditableEntity, IAggregateRoot
             return createdPostTag.Error;
         }
 
+        if (_postTags.Any(x => x.TagId == tag.TagId))
+        {
+            return PostErrors.PostTagErrors.TagAlreadyAdded;
+        }
+
         _postTags.Add(createdPostTag.Value);
         return this;
     }
