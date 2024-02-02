@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.Category;
+﻿using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Category;
+using CleanArchitecture.BlogManagement.Core.Extensions;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using CategoryCore = CleanArchitecture.BlogManagement.Core.Category.Category;
@@ -9,11 +11,11 @@ internal sealed class CategoryRepository(BlogDbContext dbContext)
 {
     private readonly BlogDbContext _dbContext = dbContext;
 
-    public async Task<IEnumerable<CategoryCore>> GetAllCategories(CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<CategoryCore>> GetAllCategories(int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         return await _dbContext
             .Categories
-            .ToListAsync(cancellationToken);
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public async Task<CategoryCore?> GetCategoriesByIds(long categoryId, CancellationToken cancellationToken = default)

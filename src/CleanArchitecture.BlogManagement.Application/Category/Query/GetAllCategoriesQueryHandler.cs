@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
+using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Query;
-internal sealed class GetAllCategoriesQueryHandler(ICategoryRepository repository, IMapper mapper) : IQueryHandler<GetAllCategoriesQuery, Result<List<CategoryResponse>>>
+internal sealed class GetAllCategoriesQueryHandler(ICategoryRepository repository, IMapper mapper) : IQueryHandler<GetAllCategoriesQuery, Result<PagedListDto<CategoryResponse>>>
 {
-    public async Task<Result<List<CategoryResponse>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PagedListDto<CategoryResponse>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var result = await repository.GetAllCategories(cancellationToken);
-        return mapper.Map<List<CategoryResponse>>(result);
+        var result = await repository.GetAllCategories(request.PageSize, request.PageNumber, cancellationToken);
+        return mapper.Map<PagedListDto<CategoryResponse>>(result);
     }
 }

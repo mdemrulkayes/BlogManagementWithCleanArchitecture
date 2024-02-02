@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
+﻿using CleanArchitecture.BlogManagement.Application.Common.Mapping;
+using CleanArchitecture.BlogManagement.Core.Base;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Query;
-public sealed record GetAllCategoriesQuery : IQuery<Result<List<CategoryResponse>>>;
+public sealed record GetAllCategoriesQuery : QueryStringParameter, IQuery<Result<PagedListDto<CategoryResponse>>>;

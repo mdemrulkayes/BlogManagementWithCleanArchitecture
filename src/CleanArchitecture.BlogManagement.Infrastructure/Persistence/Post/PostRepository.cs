@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Extensions;
+using CleanArchitecture.BlogManagement.Core.PostAggregate;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using PostCore = CleanArchitecture.BlogManagement.Core.PostAggregate.Post;
@@ -37,7 +39,7 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
             .FirstOrDefaultAsync(x => x.CommentId == commentId, cancellationToken);
     }
 
-    public async Task<IEnumerable<PostCore>> GetAllPosts(CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<PostCore>> GetAllPosts(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         return await _dbContext
             .Posts
@@ -45,9 +47,8 @@ internal sealed class PostRepository(BlogDbContext dbContext) : Repository<PostC
                 .Take(5)
                 .OrderByDescending(y => y.CreatedDate)
             )
-            .AsNoTracking()
             .OrderByDescending(x => x.CreatedDate)
-            .ToListAsync(cancellationToken);
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public async Task<PostCore?> GetPostDetailsWithCategories(long postId, CancellationToken cancellationToken = default)

@@ -62,9 +62,9 @@ public class Post : EndpointGroupBase
         return ReturnResultValue(result);
     }
 
-    private static async Task<IResult> GetAllPublishedPost(ISender sender)
+    private static async Task<IResult> GetAllPublishedPost(ISender sender, [AsParameters]GetAllPostQuery query)
     {
-        var result = await sender.Send(new GetAllPostQuery());
+        var result = await sender.Send(query);
         return ReturnResultValue(result);
     }
 

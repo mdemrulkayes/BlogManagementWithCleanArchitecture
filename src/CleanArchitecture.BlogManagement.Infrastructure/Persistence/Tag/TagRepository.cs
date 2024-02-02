@@ -14,7 +14,6 @@ internal sealed class TagRepository(BlogDbContext dbContext) : Repository<TagCor
     {
         return await _dbContext
             .Tags
-            .AsQueryable()
             .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
