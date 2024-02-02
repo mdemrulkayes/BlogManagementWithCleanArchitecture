@@ -5,6 +5,7 @@ using CleanArchitecture.BlogManagement.Application.Post.CreateComment;
 using CleanArchitecture.BlogManagement.Application.Post.Delete;
 using CleanArchitecture.BlogManagement.Application.Post.DeleteComment;
 using CleanArchitecture.BlogManagement.Application.Post.DeletePostCategory;
+using CleanArchitecture.BlogManagement.Application.Post.DeletePostTag;
 using CleanArchitecture.BlogManagement.Application.Post.Query;
 using CleanArchitecture.BlogManagement.Application.Post.Update;
 using CleanArchitecture.BlogManagement.Application.Post.UpdateComment;
@@ -24,14 +25,15 @@ public class Post : EndpointGroupBase
             .MapGet(GetPostById, "{postId}")
             .MapPost(CreatePost)
             .MapPut(UpdatePost, "{postId}")
-            .MapPut(UpdatePostStatus,"{postId}/status/change")
+            .MapPut(UpdatePostStatus, "{postId}/status/change")
             .MapDelete(DeletePost, "{postId}")
             .MapPost(AddComment, "{postId}/comment")
             .MapPut(UpdateComment, "{postId}/comment/{commentId}")
             .MapDelete(DeleteComment, "{postId}/comment/{commentId}")
             .MapPut(AddCategory, "{postId}/category/add")
             .MapDelete(RemoveCategory, "{postId}/category/remove/{categoryId}")
-            .MapPut(AddPostTag, "{postId}/tag/add");
+            .MapPut(AddPostTag, "{postId}/tag/add")
+            .MapDelete(RemovePostTag, "{postId}/tag/remove/{tagId}");
     }
 
     private static async Task<IResult> CreatePost(ISender sender, CreatePostCommand command)
@@ -62,7 +64,7 @@ public class Post : EndpointGroupBase
         return ReturnResultValue(result);
     }
 
-    private static async Task<IResult> GetAllPublishedPost(ISender sender, [AsParameters]GetAllPostQuery query)
+    private static async Task<IResult> GetAllPublishedPost(ISender sender, [AsParameters] GetAllPostQuery query)
     {
         var result = await sender.Send(query);
         return ReturnResultValue(result);
@@ -119,4 +121,11 @@ public class Post : EndpointGroupBase
         var result = await sender.Send(command);
         return ReturnResultValue(result);
     }
+
+    private static async Task<IResult> RemovePostTag(ISender sender, long postId, long tagId)
+    {
+        var result = await sender.Send(new DeletePostTagCommand(postId, tagId));
+        return ReturnResultValue(result);
+    }
+
 }

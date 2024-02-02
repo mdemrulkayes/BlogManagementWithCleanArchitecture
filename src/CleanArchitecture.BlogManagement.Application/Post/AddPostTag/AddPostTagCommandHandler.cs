@@ -13,7 +13,7 @@ internal sealed class AddPostTagCommandHandler(IPostRepository postRepository, I
             return PostErrors.NotFound;
         }
 
-        var tagDetails = await tagRepository.GetTagDetailsByText(request.Tag, cancellationToken);
+        var tagDetails = await tagRepository.GetTagDetailsByText(request.Tag.Trim(), cancellationToken);
         if (tagDetails is null)
         {
             //Create the tag

@@ -78,4 +78,61 @@ public class PostUnitTest
         Assert.NotNull(removedCategory.Value);
         Assert.Empty(post.PostCategories);
     }
+
+    [Theory]
+    [InlineData("asp.net core","")]
+    public void Add_Post_Add_Tag_WithoutDescription_Should_Return_PostResult_WithTags(string tagName, string tagDescription)
+    {
+        //Arrange
+        var post = CreatePost();
+        Assert.NotNull(post.Value);
+
+        var tag = Tag.Tag.Create(tagName, tagDescription);
+        Assert.NotNull(tag.Value);
+        //Act
+
+        var addedTag = post.Value.AddPostTag(tag.Value);
+        Assert.NotNull(addedTag);
+        Assert.True(addedTag.IsSuccess);
+        Assert.Equal(tagName, post.Value.PostTags.First().Tag.Name);
+        Assert.NotEmpty(post.Value.PostTags);
+    }
+
+    [Theory]
+    [InlineData("", "")]
+    public void AddTagInPost_WithoutTagName_ShouldReturnValidationError(string tagName,
+        string description)
+    {
+        var post = CreatePost();
+        Assert.NotNull(post.Value);
+
+        var tag = Tag.Tag.Create("Hello", description);
+        Assert.NotNull(tag.Value);
+        tag.Value.Update(tagName, description);
+
+        var addedTag = post.Value.AddPostTag(tag.Value);
+        Assert.Null(addedTag.Value);
+        Assert.False(addedTag.IsSuccess);
+
+        Assert.Equal(PostErrors.PostTagErrors.TagNameCanNotBeEmpty, addedTag.Error);
+    }
+
+    [Fact]
+    public void RemoveTagFromPost_WithInvalidTagId_ShouldReturnValidationError()
+    {
+        var post = CreatePost();
+
+        Assert.NotNull(post.Value);
+
+        var removeTag = post.Value.RemovePostTag(154);
+        Assert.False(removeTag.IsSuccess);
+        Assert.Null(removeTag.Value);
+        Assert.Empty(post.Value.PostTags);
+        Assert.Equal(PostErrors.PostTagErrors.InvalidTag, removeTag.Error);
+    }
+
+    private Result<Post> CreatePost()
+    {
+        return Post.CreatePost("there is a post", "slug-post", "this is description");
+    }
 }

@@ -23,5 +23,8 @@ public struct PostErrors
     public struct PostTagErrors
     {
         public static Error InvalidTag = Error.Validation("Post.PostTag", "Invalid tag");
+        public static Error TagNameCanNotBeEmpty = Error.Validation("Post.PostTag", "Tag name is required");
+        public static Error TagDescriptionLengthShouldBeMoreThan10 = Error.Validation("Post.PostTag", "Tag description length should be more than 10 characters");
+
     }
 }

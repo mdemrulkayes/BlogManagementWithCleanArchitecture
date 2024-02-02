@@ -23,6 +23,16 @@ public sealed class PostTag : BaseEntity
     }
     public static Result<PostTag> Create(Tag.Tag tag, Post post)
     {
+        if (string.IsNullOrWhiteSpace(tag.Name))
+        {
+            return PostErrors.PostTagErrors.TagNameCanNotBeEmpty;
+        }
+
+        if (!string.IsNullOrWhiteSpace(tag.Description) && tag.Description.Length <= 10)
+        {
+            return PostErrors.PostTagErrors.TagDescriptionLengthShouldBeMoreThan10;
+        }
+
         return new PostTag(tag, post);
     }
 }
