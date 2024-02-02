@@ -12,6 +12,9 @@ public interface IReadRepository<TEntity> where TEntity : BaseEntity
         Expression<Func<TEntity, bool>>? expression = null,
         CancellationToken cancellationToken = default
     );
+
+    Task<PaginatedList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression, int pageNumber = 1, int pageSize = 10,
+        CancellationToken cancellationToken = default);
     Task<bool> AnyAsync(
         Expression<Func<TEntity, bool>> expression
     );

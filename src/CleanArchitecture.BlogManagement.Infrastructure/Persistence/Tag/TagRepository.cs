@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.Tag;
+﻿using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Extensions;
+using CleanArchitecture.BlogManagement.Core.Tag;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
@@ -8,11 +10,12 @@ internal sealed class TagRepository(BlogDbContext dbContext) : Repository<TagCor
 {
     private readonly BlogDbContext _dbContext = dbContext;
 
-    public async Task<IEnumerable<TagCore>> GetAllTags(CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<TagCore>> GetAllTags(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         return await _dbContext
             .Tags
-            .ToListAsync(cancellationToken);
+            .AsQueryable()
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public async Task<TagCore?> GetTagDetailsByText(string tagText, CancellationToken cancellationToken = default)

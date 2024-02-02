@@ -47,7 +47,7 @@ public static class ResultExtension
             ErrorType.Unexpected => (StatusCodes.Status500InternalServerError, "Internal Server Error"),
             ErrorType.Conflict => (StatusCodes.Status409Conflict, "Conflict"),
             ErrorType.Unauthorized => (StatusCodes.Status401Unauthorized, "Unauthorized"),
-            ErrorType.Forbidden => (StatusCodes.Status403Forbidden, "Forbidded"),
+            ErrorType.Forbidden => (StatusCodes.Status403Forbidden, "Forbidden"),
             ErrorType.None => (StatusCodes.Status400BadRequest, "Bad Request"),
             ErrorType.Custom => (StatusCodes.Status400BadRequest, "Bad Request"),
             _ => (StatusCodes.Status400BadRequest, "Bad Request")

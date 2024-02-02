@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using CleanArchitecture.BlogManagement.Core.Base;
+using CleanArchitecture.BlogManagement.Core.Extensions;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -79,6 +80,15 @@ internal class Repository<TEntity>(BlogDbContext dbContext)
             .Set<TEntity>()
             .AsNoTracking()
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<PaginatedList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression, int pageNumber = 1, int pageSize = 10,
+        CancellationToken cancellationToken = default)
+    {
+        return await dbContext
+            .Set<TEntity>()
+            .AsQueryable()
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
