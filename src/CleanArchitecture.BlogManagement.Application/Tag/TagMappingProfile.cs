@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CleanArchitecture.BlogManagement.Application.Common.Mapping;
+using CleanArchitecture.BlogManagement.Core.Base;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag;
