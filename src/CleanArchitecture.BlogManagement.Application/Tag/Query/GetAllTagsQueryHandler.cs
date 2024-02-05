@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.BlogManagement.Application.Common;
 using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Tag;
@@ -11,15 +12,13 @@ internal sealed class GetAllTagsQueryHandler(ITagRepository repository,
 {
     public async Task<Result<PagedListDto<TagResponse>>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
     {
-        if (!memoryCache.TryGetValue(TagConstants.TagCacheKey, out var results))
-        {
-            results = await repository.GetAllTags(request.PageNumber, request.PageSize, cancellationToken);
-
-            memoryCache.Set(TagConstants.TagCacheKey, results, new MemoryCacheEntryOptions()
+        var results = await memoryCache.GetOrCreateAsync(TagConstants.TagCacheKey,
+            async cacheEntry =>
             {
-                SlidingExpiration = TimeSpan.FromHours(2)
+                cacheEntry.SetAllMemoryCacheOptions();
+                return await repository.GetAllTags(request.PageNumber, request.PageSize, cancellationToken);
             });
-        }
+
         return mapper.Map<PagedListDto<TagResponse>>(results);
     }
 }

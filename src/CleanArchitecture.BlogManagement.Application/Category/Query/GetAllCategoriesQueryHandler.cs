@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.BlogManagement.Application.Common;
 using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
@@ -11,15 +12,13 @@ internal sealed class GetAllCategoriesQueryHandler(ICategoryRepository repositor
 {
     public async Task<Result<PagedListDto<CategoryResponse>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        if (!memoryCache.TryGetValue(CategoryConstants.CategoryCacheKey, out var result))
-        {
-            result = await repository.GetAllCategories(request.PageSize, request.PageNumber, cancellationToken);
-
-            memoryCache.Set(CategoryConstants.CategoryCacheKey, result , new MemoryCacheEntryOptions
+        var result = await memoryCache.GetOrCreateAsync(CategoryConstants.CategoryCacheKey,
+            async cacheEntry =>
             {
-                SlidingExpiration = TimeSpan.FromHours(2)
+                cacheEntry.SetAllMemoryCacheOptions();
+                return await repository.GetAllCategories(request.PageSize, request.PageNumber, cancellationToken);
             });
-        }
+
         return mapper.Map<PagedListDto<CategoryResponse>>(result);
     }
 }

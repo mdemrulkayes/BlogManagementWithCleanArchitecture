@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.BlogManagement.Application.Common;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Tag;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,21 +11,18 @@ internal class GetTagByIdQueryHandler(ITagRepository repository,
 {
     public async Task<Result<TagResponse>> Handle(GetTagByIdQuery request, CancellationToken cancellationToken)
     {
-        if (!memoryCache.TryGetValue($"{TagConstants.TagDetailsKey}{request.TagId}", out var tagDetails))
-        {
-            tagDetails = await repository.FirstOrDefaultAsync(x => x.TagId == request.TagId);
-
-            if (tagDetails == null)
+        var tagDetails = await memoryCache.GetOrCreateAsync($"{TagConstants.TagDetailsKey}{request.TagId}",
+            async cacheEntry =>
             {
-                return TagErrors.TagNotFound;
-            }
-
-            memoryCache.Set($"{TagConstants.TagDetailsKey}{request.TagId}", tagDetails, new MemoryCacheEntryOptions()
-            {
-                SlidingExpiration = TimeSpan.FromHours(2)
+                cacheEntry.SetAllMemoryCacheOptions();
+                return await repository.FirstOrDefaultAsync(x => x.TagId == request.TagId);
             });
+
+        if (tagDetails == null)
+        {
+            return TagErrors.TagNotFound;
         }
-       
+
         return mapper.Map<TagResponse>(tagDetails);
     }
 }
