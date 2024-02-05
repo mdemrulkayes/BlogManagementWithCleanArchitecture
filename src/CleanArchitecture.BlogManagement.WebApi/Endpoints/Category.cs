@@ -1,7 +1,9 @@
-﻿using CleanArchitecture.BlogManagement.Application.Category.Create;
+﻿using CleanArchitecture.BlogManagement.Application.Category;
+using CleanArchitecture.BlogManagement.Application.Category.Create;
 using CleanArchitecture.BlogManagement.Application.Category.Delete;
 using CleanArchitecture.BlogManagement.Application.Category.Query;
 using CleanArchitecture.BlogManagement.Application.Category.Update;
+using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
 
@@ -13,10 +15,10 @@ public sealed class Category : EndpointGroupBase
     {
         builder.MapGroup(this)
             //.RequireAuthorization()
-            .MapGet(GetCategories)
-            .MapPost(CreateCategory)
-            .MapPut(UpdateCategory, "{categoryId}")
-            .MapDelete(DeleteCategory, "{categoryId}");
+            .MapGet(GetCategories, responseType: typeof(PagedListDto<CategoryResponse>))
+            .MapPost(CreateCategory, responseType: typeof(CategoryResponse))
+            .MapPut(UpdateCategory, "{categoryId}", responseType: typeof(CategoryResponse))
+            .MapDelete(DeleteCategory, "{categoryId}", responseType: typeof(bool));
     }
 
     private static async Task<IResult> GetCategories(ISender sender, [AsParameters] GetAllCategoriesQuery query)

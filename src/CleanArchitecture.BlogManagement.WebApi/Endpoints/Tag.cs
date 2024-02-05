@@ -1,10 +1,11 @@
-﻿using CleanArchitecture.BlogManagement.Application.Tag.Create;
+﻿using CleanArchitecture.BlogManagement.Application.Common.Mapping;
+using CleanArchitecture.BlogManagement.Application.Tag;
+using CleanArchitecture.BlogManagement.Application.Tag.Create;
 using CleanArchitecture.BlogManagement.Application.Tag.Delete;
 using CleanArchitecture.BlogManagement.Application.Tag.Query;
 using CleanArchitecture.BlogManagement.Application.Tag.Update;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Endpoints;
 
@@ -14,11 +15,11 @@ public sealed class Tag : EndpointGroupBase
     {
         builder.MapGroup(this)
             //.RequireAuthorization()
-            .MapGet(GetAllTags)
-            .MapGet(GetTagDetailsById, "{tagId}")
-            .MapPost(CreateTag)
-            .MapPut(UpdateTag, "{tagId}")
-            .MapDelete(DeleteTag, "{tagId}");
+            .MapGet(GetAllTags, responseType: typeof(PagedListDto<TagResponse>))
+            .MapGet(GetTagDetailsById, "{tagId}", responseType: typeof(TagResponse))
+            .MapPost(CreateTag, responseType: typeof(TagResponse))
+            .MapPut(UpdateTag, "{tagId}", responseType: typeof(TagResponse))
+            .MapDelete(DeleteTag, "{tagId}", responseType: typeof(bool));
     }
 
     private static async Task<IResult> GetAllTags(ISender sender, [AsParameters]GetAllTagsQuery queryParams)

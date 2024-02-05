@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Application.Post.AddPostCategory;
+﻿using CleanArchitecture.BlogManagement.Application.Common.Mapping;
+using CleanArchitecture.BlogManagement.Application.Post;
+using CleanArchitecture.BlogManagement.Application.Post.AddPostCategory;
 using CleanArchitecture.BlogManagement.Application.Post.AddPostTag;
 using CleanArchitecture.BlogManagement.Application.Post.Create;
 using CleanArchitecture.BlogManagement.Application.Post.CreateComment;
@@ -21,19 +23,19 @@ public class Post : EndpointGroupBase
     {
         builder.MapGroup(this)
             //.RequireAuthorization()
-            .MapGet(GetAllPublishedPost)
-            .MapGet(GetPostById, "{postId}")
-            .MapPost(CreatePost)
-            .MapPut(UpdatePost, "{postId}")
-            .MapPut(UpdatePostStatus, "{postId}/status/change")
-            .MapDelete(DeletePost, "{postId}")
-            .MapPost(AddComment, "{postId}/comment")
-            .MapPut(UpdateComment, "{postId}/comment/{commentId}")
-            .MapDelete(DeleteComment, "{postId}/comment/{commentId}")
-            .MapPut(AddCategory, "{postId}/category/add")
-            .MapDelete(RemoveCategory, "{postId}/category/remove/{categoryId}")
-            .MapPut(AddPostTag, "{postId}/tag/add")
-            .MapDelete(RemovePostTag, "{postId}/tag/remove/{tagId}");
+            .MapGet(GetAllPublishedPost, responseType:typeof(PagedListDto<PostResponse>))
+            .MapGet(GetPostById, "{postId}", responseType: typeof(PostResponse))
+            .MapPost(CreatePost, responseType: typeof(long))
+            .MapPut(UpdatePost, "{postId}", responseType: typeof(long))
+            .MapPut(UpdatePostStatus, "{postId}/status/change", responseType: typeof(long))
+            .MapDelete(DeletePost, "{postId}", responseType: typeof(bool))
+            .MapPost(AddComment, "{postId}/comment", responseType: typeof(long))
+            .MapPut(UpdateComment, "{postId}/comment/{commentId}", responseType: typeof(long))
+            .MapDelete(DeleteComment, "{postId}/comment/{commentId}", responseType: typeof(long))
+            .MapPut(AddCategory, "{postId}/category/add", responseType: typeof(long))
+            .MapDelete(RemoveCategory, "{postId}/category/remove/{categoryId}", responseType: typeof(long))
+            .MapPut(AddPostTag, "{postId}/tag/add", responseType: typeof(long))
+            .MapDelete(RemovePostTag, "{postId}/tag/remove/{tagId}", responseType: typeof(long));
     }
 
     private static async Task<IResult> CreatePost(ISender sender, CreatePostCommand command)
