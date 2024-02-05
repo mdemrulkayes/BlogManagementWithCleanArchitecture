@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Update;
-internal sealed class UpdateCategoryCommandHandler(ICategoryRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<UpdateCategoryCommand, Result<CategoryResponse>>
+internal sealed class UpdateCategoryCommandHandler(ICategoryRepository repository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    IMemoryCache memoryCache) : ICommandHandler<UpdateCategoryCommand, Result<CategoryResponse>>
 {
     public async Task<Result<CategoryResponse>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
@@ -21,6 +25,8 @@ internal sealed class UpdateCategoryCommandHandler(ICategoryRepository repositor
         }
         await repository.Update(updatedCategory.Value);
         await unitOfWork.CommitAsync(cancellationToken);
+
+        memoryCache.Remove(CategoryConstants.CategoryCacheKey);
 
         return mapper.Map<CategoryResponse>(updatedCategory.Value);
     }

@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Create;
-internal class CreateCategoryCommandHandler(ICategoryRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : ICommandHandler<CreateCategoryCommand, Result<CategoryResponse>>
+internal class CreateCategoryCommandHandler(ICategoryRepository repository,
+    IUnitOfWork unitOfWork,
+    IMemoryCache memoryCache,
+    IMapper mapper) : ICommandHandler<CreateCategoryCommand, Result<CategoryResponse>>
 {
     public async Task<Result<CategoryResponse>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken = default)
     {
@@ -15,6 +19,8 @@ internal class CreateCategoryCommandHandler(ICategoryRepository repository, IUni
 
         await repository.Add(category.Value);
         await unitOfWork.CommitAsync(cancellationToken);
+
+        memoryCache.Remove(CategoryConstants.CategoryCacheKey);
 
         return mapper.Map<CategoryResponse>(category.Value);
     }

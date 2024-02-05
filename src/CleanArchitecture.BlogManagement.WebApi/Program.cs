@@ -22,6 +22,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 builder.Services.RegisterSwagger();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
