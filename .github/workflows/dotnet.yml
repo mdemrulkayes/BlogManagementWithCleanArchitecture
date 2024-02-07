@@ -24,6 +24,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore CleanArchitecture.BlogManagement.sln
     - name: Build
-      run: dotnet build --no-restore --Configuration Release CleanArchitecture.BlogManagement.sln
+      run: dotnet build --no-restore CleanArchitecture.BlogManagement.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal CleanArchitecture.BlogManagement.sln
