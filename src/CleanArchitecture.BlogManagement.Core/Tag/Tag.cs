@@ -3,7 +3,7 @@ using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.Tag;
 
-public sealed class Tag : BaseAuditableEntity<Guid>
+public sealed class Tag : BaseAuditableEntity
 {
     public long TagId { get; private set; }
     public string Name { get; private set; }

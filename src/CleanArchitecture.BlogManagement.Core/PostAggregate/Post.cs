@@ -2,7 +2,7 @@
 using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
-public sealed class Post : BaseAuditableEntity<Guid>, IAggregateRoot
+public sealed class Post : BaseAuditableEntity, IAggregateRoot
 {
     public long PostId { get; private set; }
     public string Title { get; private set; }

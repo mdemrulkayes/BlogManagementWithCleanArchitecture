@@ -15,6 +15,7 @@ using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Category;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Post;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Tag;
 using SharedKernel;
+using TimeProvider = CleanArchitecture.BlogManagement.Infrastructure.Services.TimeProvider;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure;
 public static class DependencyInjection
@@ -25,7 +26,10 @@ public static class DependencyInjection
         services.AddDbContext<BlogDbContext>((sp,opt) =>
         {
             opt.UseSqlServer(configuration.GetConnectionString("BlogDbContext"))
-                .AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
+                .AddInterceptors(
+                    sp.GetRequiredService<AuditableEntityInterceptor>(),
+                    sp.GetRequiredService<PublishDomainEventsInterceptor>()
+                    );
         });
 
         services.Configure<IdentityOptions>(options =>
@@ -56,6 +60,8 @@ public static class DependencyInjection
 
         services.RegisterServices();
 
+        services.AddTransient<ITimeProvider, TimeProvider>();
+
         return services;
     }
 
@@ -73,6 +79,7 @@ public static class DependencyInjection
     private static void RegisterDatabaseInterceptors(this IServiceCollection services)
     {
         services.AddScoped<AuditableEntityInterceptor>();
+        services.AddScoped<PublishDomainEventsInterceptor>();
     }
 
 

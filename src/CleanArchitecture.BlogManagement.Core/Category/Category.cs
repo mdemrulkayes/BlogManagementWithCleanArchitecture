@@ -3,7 +3,7 @@ using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.Category;
 
-public sealed class Category : BaseAuditableEntity<Guid>
+public sealed class Category : BaseAuditableEntity
 {
     public long CategoryId { get; private set; }
     public string Name { get; private set; }
