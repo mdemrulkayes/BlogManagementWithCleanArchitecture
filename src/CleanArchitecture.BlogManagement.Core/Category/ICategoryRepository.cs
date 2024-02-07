@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
+﻿using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.Category;
 public interface ICategoryRepository : IRepository<Category>

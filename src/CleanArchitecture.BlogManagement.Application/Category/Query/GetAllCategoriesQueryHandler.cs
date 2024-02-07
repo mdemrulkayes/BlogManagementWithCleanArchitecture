@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Application.Common;
 using CleanArchitecture.BlogManagement.Application.Common.Mapping;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
 using Microsoft.Extensions.Caching.Memory;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Query;
 internal sealed class GetAllCategoriesQueryHandler(ICategoryRepository repository,

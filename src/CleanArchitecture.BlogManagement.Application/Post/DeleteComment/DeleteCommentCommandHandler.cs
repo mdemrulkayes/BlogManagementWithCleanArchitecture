@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.DeleteComment;
 internal sealed class DeleteCommentCommandHandler(IPostRepository repository, ICommentRepository commentRepository, IUnitOfWork unitOfWork) : ICommandHandler<DeleteCommentCommand, Result<long>>

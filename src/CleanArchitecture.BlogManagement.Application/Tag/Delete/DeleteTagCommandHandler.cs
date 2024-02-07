@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Tag;
+﻿using CleanArchitecture.BlogManagement.Core.Tag;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Delete;
 internal sealed class DeleteTagCommandHandler(ITagRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<DeleteTagCommand, Result<bool>>

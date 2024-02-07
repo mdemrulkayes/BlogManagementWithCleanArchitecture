@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.BlogManagement.Application.Common.Mapping;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.WebApi.Extensions;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 

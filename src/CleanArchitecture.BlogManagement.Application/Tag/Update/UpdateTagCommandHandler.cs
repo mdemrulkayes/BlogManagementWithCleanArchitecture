@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Tag;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Update;
 internal sealed class UpdateTagCommandHandler(ITagRepository repository,

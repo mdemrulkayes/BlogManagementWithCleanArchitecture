@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CleanArchitecture.BlogManagement.Core.Base;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Mapping;
 internal sealed class MappingProfile : Profile

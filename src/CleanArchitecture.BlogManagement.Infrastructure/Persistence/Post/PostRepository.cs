@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Extensions;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
+using SharedKernel.Extensions;
 using PostCore = CleanArchitecture.BlogManagement.Core.PostAggregate.Post;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence.Post;

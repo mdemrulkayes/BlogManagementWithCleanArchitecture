@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.BlogManagement.Core.Base;
+﻿namespace SharedKernel;
 public interface IBaseResult
 {
     public bool IsSuccess { get; }

@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Extensions;
-using CleanArchitecture.BlogManagement.Core.Tag;
+﻿using CleanArchitecture.BlogManagement.Core.Tag;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
+using SharedKernel.Extensions;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence.Tag;

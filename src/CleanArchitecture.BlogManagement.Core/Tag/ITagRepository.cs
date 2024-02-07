@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
+﻿using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.Tag;
 public interface ITagRepository : IRepository<Tag>

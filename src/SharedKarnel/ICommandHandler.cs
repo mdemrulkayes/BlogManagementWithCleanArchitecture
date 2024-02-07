@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace CleanArchitecture.BlogManagement.Core.Base;
+namespace SharedKernel;
 public interface ICommandHandler<in TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
     where TCommand: ICommand<TResponse>;
 

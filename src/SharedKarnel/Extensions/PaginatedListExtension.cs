@@ -1,7 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.BlogManagement.Core.Extensions;
+namespace SharedKernel.Extensions;
 public static class PaginatedListExtension
 {
     public static Task<PaginatedList<T>> ToPaginatedListAsync<T>(this IQueryable<T> queryable, int pageNumber,

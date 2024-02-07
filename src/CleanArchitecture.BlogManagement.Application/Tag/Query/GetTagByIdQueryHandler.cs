@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CleanArchitecture.BlogManagement.Application.Common;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Tag;
 using Microsoft.Extensions.Caching.Memory;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Query;
 internal class GetTagByIdQueryHandler(ITagRepository repository,

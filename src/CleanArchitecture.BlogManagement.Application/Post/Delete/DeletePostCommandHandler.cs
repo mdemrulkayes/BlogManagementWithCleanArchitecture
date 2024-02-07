@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.Delete;
 internal sealed class DeletePostCommandHandler(IPostRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<DeletePostCommand, Result<bool>>

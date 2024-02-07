@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Category;
-using CleanArchitecture.BlogManagement.Core.Extensions;
+﻿using CleanArchitecture.BlogManagement.Core.Category;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
+using SharedKernel.Extensions;
 using CategoryCore = CleanArchitecture.BlogManagement.Core.Category.Category;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence.Category;

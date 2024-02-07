@@ -13,4 +13,8 @@
     <PackageReference Include="Serilog.Settings.Configuration" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharedKarnel\SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

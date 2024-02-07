@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace CleanArchitecture.BlogManagement.Core.Base;
+namespace SharedKernel;
 public interface IReadRepository<TEntity> where TEntity : BaseEntity
 {
     Task<TEntity?> FirstOrDefaultAsync(

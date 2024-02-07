@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.Query;
 internal sealed class GetPostByIdQueryHandler(IPostRepository repository, IMapper mapper) : IQueryHandler<GetPostByIdQuery, Result<PostResponse>>

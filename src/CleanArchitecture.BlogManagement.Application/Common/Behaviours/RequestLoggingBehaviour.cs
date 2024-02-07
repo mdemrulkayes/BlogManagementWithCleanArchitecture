@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Behaviours;
 

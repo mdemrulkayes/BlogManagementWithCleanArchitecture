@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Category;
+﻿using CleanArchitecture.BlogManagement.Core.Category;
 using Microsoft.Extensions.Caching.Memory;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Delete;
 internal sealed class DeleteCategoryCommandHandler(ICategoryRepository repository,

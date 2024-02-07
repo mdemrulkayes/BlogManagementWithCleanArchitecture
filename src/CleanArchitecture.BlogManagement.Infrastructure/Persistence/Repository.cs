@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Extensions;
 using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
+using SharedKernel.Extensions;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence;
 internal class Repository<TEntity>(BlogDbContext dbContext) 

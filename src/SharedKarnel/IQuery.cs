@@ -1,4 +1,4 @@
 ﻿using MediatR;
 
-namespace CleanArchitecture.BlogManagement.Core.Base;
+namespace SharedKernel;
 public interface IQuery<out TResponse> : IRequest<TResponse>;

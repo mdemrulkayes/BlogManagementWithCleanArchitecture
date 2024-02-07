@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Extensions;
 

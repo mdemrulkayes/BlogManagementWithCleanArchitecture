@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Infrastructure.Data;
+﻿using CleanArchitecture.BlogManagement.Infrastructure.Data;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Persistence;
 internal class UnitOfWork(BlogDbContext dbContext) : IUnitOfWork

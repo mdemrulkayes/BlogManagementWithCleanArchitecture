@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
+﻿using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
-public sealed class Comment : BaseAuditableEntity
+public sealed class Comment : BaseAuditableEntity<Guid>
 {
     public long CommentId { get; private set; }
     public string Text { get; private set; }

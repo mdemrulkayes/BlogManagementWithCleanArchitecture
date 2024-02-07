@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Behaviours;
 public sealed class ValidationBehaviour<TRequest, TResponse>(ILogger<ValidationBehaviour<TRequest, TResponse>> logger, IEnumerable<IValidator<TRequest>> validators)

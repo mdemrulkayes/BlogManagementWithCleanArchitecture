@@ -1,9 +1,9 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.Category;
 
-public sealed class Category : BaseAuditableEntity
+public sealed class Category : BaseAuditableEntity<Guid>
 {
     public long CategoryId { get; private set; }
     public string Name { get; private set; }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Category;
 using Microsoft.Extensions.Caching.Memory;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Create;
 internal class CreateCategoryCommandHandler(ICategoryRepository repository,

@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 using PostCore = CleanArchitecture.BlogManagement.Core.PostAggregate.Post;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.Create;

@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
 using CleanArchitecture.BlogManagement.Core.Tag;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.AddPostTag;
 internal sealed class AddPostTagCommandHandler(IPostRepository postRepository, ITagRepository tagRepository, IUnitOfWork unitOfWork) : ICommandHandler<AddPostTagCommand, Result<long>>

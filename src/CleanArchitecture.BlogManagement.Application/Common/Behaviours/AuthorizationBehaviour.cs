@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Security.Claims;
 using CleanArchitecture.BlogManagement.Application.Common.Security;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Common.Behaviours;
 internal sealed class AuthorizationBehaviour<TRequest, TResponse>(

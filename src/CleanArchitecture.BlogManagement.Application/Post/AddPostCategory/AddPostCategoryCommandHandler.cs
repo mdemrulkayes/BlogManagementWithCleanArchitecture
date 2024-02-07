@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Category;
+﻿using CleanArchitecture.BlogManagement.Core.Category;
 using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.AddPostCategory;
 internal sealed class AddPostCategoryCommandHandler(IPostRepository postRepository,

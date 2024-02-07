@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CleanArchitecture.BlogManagement.Core.Base;
 using CleanArchitecture.BlogManagement.Core.Tag;
+using SharedKernel;
 using TagCore = CleanArchitecture.BlogManagement.Core.Tag.Tag;
 
 namespace CleanArchitecture.BlogManagement.Application.Tag.Create;

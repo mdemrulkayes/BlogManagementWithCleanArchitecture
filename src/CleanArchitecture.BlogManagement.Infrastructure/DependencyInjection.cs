@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Infrastructure.Data;
+﻿using CleanArchitecture.BlogManagement.Infrastructure.Data;
 using CleanArchitecture.BlogManagement.Infrastructure.Data.Interceptors;
 using CleanArchitecture.BlogManagement.Infrastructure.Identity;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence;
@@ -15,6 +14,7 @@ using CleanArchitecture.BlogManagement.Core.Tag;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Category;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Post;
 using CleanArchitecture.BlogManagement.Infrastructure.Persistence.Tag;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure;
 public static class DependencyInjection

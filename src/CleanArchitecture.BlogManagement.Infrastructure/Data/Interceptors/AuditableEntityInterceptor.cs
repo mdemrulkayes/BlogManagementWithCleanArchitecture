@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.Identity;
+﻿using CleanArchitecture.BlogManagement.Core.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Infrastructure.Data.Interceptors;
 internal sealed class AuditableEntityInterceptor(ILogger<AuditableEntityInterceptor> logger, IIdentityService identityService) : SaveChangesInterceptor
@@ -17,7 +17,7 @@ internal sealed class AuditableEntityInterceptor(ILogger<AuditableEntityIntercep
 
         if (context is not null)
         {
-            var trackedEntries = context.ChangeTracker.Entries<BaseAuditableEntity>()
+            var trackedEntries = context.ChangeTracker.Entries<BaseAuditableEntity<Guid>>()
                 .Where(e => e.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
                 .ToList();
             foreach (var entry in trackedEntries)

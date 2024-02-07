@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using CleanArchitecture.BlogManagement.Core.Base;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Core.PostAggregate;
-public sealed class Post : BaseAuditableEntity, IAggregateRoot
+public sealed class Post : BaseAuditableEntity<Guid>, IAggregateRoot
 {
     public long PostId { get; private set; }
     public string Title { get; private set; }

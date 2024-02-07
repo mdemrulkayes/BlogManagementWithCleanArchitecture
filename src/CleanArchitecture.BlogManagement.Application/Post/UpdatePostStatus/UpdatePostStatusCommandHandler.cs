@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Core.Base;
-using CleanArchitecture.BlogManagement.Core.PostAggregate;
+﻿using CleanArchitecture.BlogManagement.Core.PostAggregate;
+using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.UpdatePostStatus;
 internal sealed class UpdatePostStatusCommandHandler(IPostRepository repository, IUnitOfWork unitOfWork) : ICommandHandler<UpdatePostStatusCommand, Result<long>>

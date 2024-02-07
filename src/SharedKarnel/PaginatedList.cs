@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.BlogManagement.Core.Base;
+namespace SharedKernel;
 public sealed class PaginatedList<T>
 {
     public IReadOnlyCollection<T> Items { get; }

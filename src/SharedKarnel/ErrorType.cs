@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.BlogManagement.Core.Base;
+﻿namespace SharedKernel;
 public enum ErrorType
 {
     None,
