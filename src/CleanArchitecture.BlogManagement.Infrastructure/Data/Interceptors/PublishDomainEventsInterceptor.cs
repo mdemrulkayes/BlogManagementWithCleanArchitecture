@@ -21,6 +21,7 @@ public sealed class PublishDomainEventsInterceptor(IMediator mediator) : SaveCha
         var eventEntities = context.ChangeTracker
             .Entries<BaseEntity>()
             .Select(entry => entry.Entity)
+            .Where(entity => entity.DomainEvents.Any())
             .SelectMany(entity =>
             {
                 var domainEvents = entity.GetDomainEvents();
