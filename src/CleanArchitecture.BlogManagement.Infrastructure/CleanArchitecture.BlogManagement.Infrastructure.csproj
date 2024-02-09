@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.BlogManagement.Core\CleanArchitecture.BlogManagement.Core.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.BlogManagement.Application\CleanArchitecture.BlogManagement.Application.csproj" />
   </ItemGroup>
 
 </Project>
