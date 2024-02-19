@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Reflection;
+using CleanArchitecture.BlogManagement.WebApi.Filters;
 
 namespace CleanArchitecture.BlogManagement.WebApi;
 
@@ -45,6 +46,8 @@ public static class DependencyInjection
                     new string[]{}
                 }
             });
+
+            opt.OperationFilter<AddApiVersionHeaderFilter>();
         });
 
         return services;

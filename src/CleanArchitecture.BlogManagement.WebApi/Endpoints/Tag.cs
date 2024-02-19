@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Application.Common.Mapping;
+﻿using Asp.Versioning;
+using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.Application.Tag;
 using CleanArchitecture.BlogManagement.Application.Tag.Create;
 using CleanArchitecture.BlogManagement.Application.Tag.Delete;
@@ -11,15 +12,25 @@ namespace CleanArchitecture.BlogManagement.WebApi.Endpoints;
 
 public sealed class Tag : EndpointGroupBase
 {
+    public ApiVersion V1 = ApiVersion.Default;
+    public ApiVersion V2 = new(2);
+
     public override void Map(WebApplication builder)
     {
+        var apiVersionSet = builder.NewApiVersionSet()
+            .HasApiVersion(V1)
+            .HasApiVersion(V2)
+            .Build();
+
         builder.MapGroup(this)
+            .WithApiVersionSet(apiVersionSet)
+            .MapToApiVersion(V1)
             //.RequireAuthorization()
-            .MapGet(GetAllTags, responseType: typeof(PagedListDto<TagResponse>))
-            .MapGet(GetTagDetailsById, "{tagId}", responseType: typeof(TagResponse))
-            .MapPost(CreateTag, responseType: typeof(TagResponse))
-            .MapPut(UpdateTag, "{tagId}", responseType: typeof(TagResponse))
-            .MapDelete(DeleteTag, "{tagId}", responseType: typeof(bool));
+            .MapGet(GetAllTags, responseType: typeof(PagedListDto<TagResponse>), versionInfo: V1)
+            .MapGet(GetTagDetailsById, "{tagId}", responseType: typeof(TagResponse), versionInfo: V1)
+            .MapPost(CreateTag, responseType: typeof(TagResponse), versionInfo: V2)
+            .MapPut(UpdateTag, "{tagId}", responseType: typeof(TagResponse), versionInfo: V1)
+            .MapDelete(DeleteTag, "{tagId}", responseType: typeof(bool), versionInfo: V1);
     }
 
     private static async Task<IResult> GetAllTags(ISender sender, [AsParameters]GetAllTagsQuery queryParams)

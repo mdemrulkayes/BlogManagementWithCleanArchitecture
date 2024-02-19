@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Application.Common.Mapping;
+﻿using Asp.Versioning;
+using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.Application.Post;
 using CleanArchitecture.BlogManagement.Application.Post.AddPostCategory;
 using CleanArchitecture.BlogManagement.Application.Post.AddPostTag;
@@ -21,7 +22,12 @@ public class Post : EndpointGroupBase
 {
     public override void Map(WebApplication builder)
     {
+        var apiVersionSet = builder.NewApiVersionSet()
+            .HasApiVersion(ApiVersion.Default)
+            .Build();
+
         builder.MapGroup(this)
+            .WithApiVersionSet(apiVersionSet)
             //.RequireAuthorization()
             .MapGet(GetAllPublishedPost, responseType:typeof(PagedListDto<PostResponse>))
             .MapGet(GetPostById, "{postId}", responseType: typeof(PostResponse))

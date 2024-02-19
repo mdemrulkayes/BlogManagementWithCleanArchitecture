@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.BlogManagement.Application.Category;
+﻿using Asp.Versioning;
+using CleanArchitecture.BlogManagement.Application.Category;
 using CleanArchitecture.BlogManagement.Application.Category.Create;
 using CleanArchitecture.BlogManagement.Application.Category.Delete;
 using CleanArchitecture.BlogManagement.Application.Category.Query;
@@ -13,7 +14,12 @@ public sealed class Category : EndpointGroupBase
 {
     public override void Map(WebApplication builder)
     {
+        var apiVersionSet = builder.NewApiVersionSet()
+            .HasApiVersion(ApiVersion.Default)
+            .Build();
+
         builder.MapGroup(this)
+            .WithApiVersionSet(apiVersionSet)
             //.RequireAuthorization()
             .MapGet(GetCategories, responseType: typeof(PagedListDto<CategoryResponse>))
             .MapPost(CreateCategory, responseType: typeof(CategoryResponse))
