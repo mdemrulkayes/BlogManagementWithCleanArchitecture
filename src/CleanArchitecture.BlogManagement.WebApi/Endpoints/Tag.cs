@@ -33,8 +33,9 @@ public sealed class Tag : EndpointGroupBase
             .MapDelete(DeleteTag, "{tagId}", responseType: typeof(bool), versionInfo: V1);
     }
 
-    private static async Task<IResult> GetAllTags(ISender sender, [AsParameters]GetAllTagsQuery queryParams)
+    private static async Task<IResult> GetAllTags(ISender sender, int pageNumber = 1, int pageSize = 10)
     {
+        var queryParams = new GetAllTagsQuery(pageNumber, pageSize);
         var tags = await sender.Send(queryParams);
         return ReturnResultValue(tags);
     }

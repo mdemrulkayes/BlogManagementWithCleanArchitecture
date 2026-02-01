@@ -27,8 +27,9 @@ public sealed class Category : EndpointGroupBase
             .MapDelete(DeleteCategory, "{categoryId}", responseType: typeof(bool));
     }
 
-    private static async Task<IResult> GetCategories(ISender sender, [AsParameters] GetAllCategoriesQuery query)
+    private static async Task<IResult> GetCategories(ISender sender, int pageNumber = 1, int pageSize = 10)
     {
+        var query = new GetAllCategoriesQuery(pageNumber, pageSize);
         var categories = await sender.Send(query);
         return ReturnResultValue(categories);
     }
