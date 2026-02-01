@@ -28,7 +28,7 @@ public class Post : EndpointGroupBase
 
         builder.MapGroup(this)
             .WithApiVersionSet(apiVersionSet)
-            //.RequireAuthorization()
+            .RequireAuthorization()
             .MapGet(GetAllPublishedPost, responseType:typeof(PagedListDto<PostResponse>))
             .MapGet(GetPostById, "{postId}", responseType: typeof(PostResponse))
             .MapPost(CreatePost, responseType: typeof(long))

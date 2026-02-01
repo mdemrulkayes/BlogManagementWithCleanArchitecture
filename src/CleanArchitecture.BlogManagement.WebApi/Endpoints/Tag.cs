@@ -25,7 +25,7 @@ public sealed class Tag : EndpointGroupBase
         builder.MapGroup(this)
             .WithApiVersionSet(apiVersionSet)
             .MapToApiVersion(V1)
-            //.RequireAuthorization()
+            .RequireAuthorization()
             .MapGet(GetAllTags, responseType: typeof(PagedListDto<TagResponse>), versionInfo: V1)
             .MapGet(GetTagDetailsById, "{tagId}", responseType: typeof(TagResponse), versionInfo: V1)
             .MapPost(CreateTag, responseType: typeof(TagResponse), versionInfo: V2)

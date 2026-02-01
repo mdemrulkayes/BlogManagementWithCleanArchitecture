@@ -20,7 +20,7 @@ public sealed class Category : EndpointGroupBase
 
         builder.MapGroup(this)
             .WithApiVersionSet(apiVersionSet)
-            //.RequireAuthorization()
+            .RequireAuthorization()
             .MapGet(GetCategories, responseType: typeof(PagedListDto<CategoryResponse>))
             .MapPost(CreateCategory, responseType: typeof(CategoryResponse))
             .MapPut(UpdateCategory, "{categoryId}", responseType: typeof(CategoryResponse))
