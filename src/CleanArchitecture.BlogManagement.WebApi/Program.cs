@@ -5,6 +5,7 @@ using CleanArchitecture.BlogManagement.Infrastructure;
 using CleanArchitecture.BlogManagement.WebApi;
 using CleanArchitecture.BlogManagement.WebApi.Middlewares;
 using Microsoft.AspNetCore.Mvc;
+using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,7 @@ builder.Services.AddProblemDetails();
 builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true);
 
-builder.Services.RegisterSwagger();
+builder.Services.RegisterOpenApi();
 
 builder.Services.AddMemoryCache();
 
@@ -42,8 +43,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseMiddleware<RequestLogContextMiddleware>();
 app.UseMiddleware<ApiVersionHeaderValidationMiddleware>();
