@@ -27,4 +27,8 @@
     <ProjectReference Include="..\CleanArchitecture.BlogManagement.Infrastructure\CleanArchitecture.BlogManagement.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
 </Project>

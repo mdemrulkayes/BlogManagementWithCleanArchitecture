@@ -27,8 +27,7 @@ public static class DependencyInjection
 
         return app
             .MapGroup($"/api/{groupName.ToLower()}")
-            .WithTags(groupName)
-            .WithOpenApi();
+            .WithTags(groupName);
     }
 
     public static WebApplication MapEndpoints(this WebApplication app)
