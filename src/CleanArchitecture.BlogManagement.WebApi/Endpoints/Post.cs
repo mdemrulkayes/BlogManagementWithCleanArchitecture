@@ -15,7 +15,6 @@ using CleanArchitecture.BlogManagement.Application.Post.UpdateComment;
 using CleanArchitecture.BlogManagement.Application.Post.UpdatePostStatus;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Endpoints;
 

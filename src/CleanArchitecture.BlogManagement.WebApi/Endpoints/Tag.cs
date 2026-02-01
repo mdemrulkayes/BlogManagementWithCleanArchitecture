@@ -7,7 +7,6 @@ using CleanArchitecture.BlogManagement.Application.Tag.Query;
 using CleanArchitecture.BlogManagement.Application.Tag.Update;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Endpoints;
 
