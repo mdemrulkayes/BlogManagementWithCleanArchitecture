@@ -3,5 +3,4 @@ using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Post.Query;
 
-public sealed record GetAllPostQuery(int PageNumber = 1, int PageSize = 10) 
-    : QueryStringParameter(PageNumber, PageSize), IQuery<Result<PagedListDto<PostResponse>>>;
+public sealed record GetAllPostQuery : QueryStringParameter, IQuery<Result<PagedListDto<PostResponse>>>;

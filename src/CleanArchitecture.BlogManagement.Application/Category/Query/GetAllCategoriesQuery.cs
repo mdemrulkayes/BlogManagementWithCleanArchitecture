@@ -3,5 +3,4 @@ using SharedKernel;
 
 namespace CleanArchitecture.BlogManagement.Application.Category.Query;
 
-public sealed record GetAllCategoriesQuery(int PageNumber = 1, int PageSize = 10) 
-    : QueryStringParameter(PageNumber, PageSize), IQuery<Result<PagedListDto<CategoryResponse>>>;
+public sealed record GetAllCategoriesQuery : QueryStringParameter, IQuery<Result<PagedListDto<CategoryResponse>>>;
