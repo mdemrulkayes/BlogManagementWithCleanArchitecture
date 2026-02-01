@@ -7,7 +7,6 @@ using CleanArchitecture.BlogManagement.Application.Category.Update;
 using CleanArchitecture.BlogManagement.Application.Common.Mapping;
 using CleanArchitecture.BlogManagement.WebApi.Infrastructure;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.BlogManagement.WebApi.Endpoints;
 
@@ -28,8 +27,9 @@ public sealed class Category : EndpointGroupBase
             .MapDelete(DeleteCategory, "{categoryId}", responseType: typeof(bool));
     }
 
-    private static async Task<IResult> GetCategories(ISender sender, GetAllCategoriesQuery query)
+    private static async Task<IResult> GetCategories(ISender sender, int pageNumber = 1, int pageSize = 10)
     {
+        var query = new GetAllCategoriesQuery(pageNumber, pageSize);
         var categories = await sender.Send(query);
         return ReturnResultValue(categories);
     }
