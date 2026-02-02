@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +27,7 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent implements OnInit {
   currentUser: any;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
@@ -36,5 +37,6 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

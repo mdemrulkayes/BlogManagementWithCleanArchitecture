@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,17 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'blog-frontend';
+  showLayout = false;
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.showLayout = !event.url.includes('/login') && !event.url.includes('/register');
+    });
+  }
 }

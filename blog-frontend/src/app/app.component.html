@@ -1,4 +1,4 @@
-<div class="flex h-screen bg-gray-100">
+<div *ngIf="showLayout" class="flex h-screen bg-gray-100">
   <!-- Sidebar -->
   <app-sidebar></app-sidebar>
 
@@ -12,4 +12,8 @@
       <router-outlet></router-outlet>
     </main>
   </div>
+</div>
+
+<div *ngIf="!showLayout">
+  <router-outlet></router-outlet>
 </div>

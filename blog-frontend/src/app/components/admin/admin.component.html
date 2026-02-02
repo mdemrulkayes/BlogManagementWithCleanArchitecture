@@ -1,0 +1,113 @@
+<div class="p-6">
+  <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
+  <mat-tab-group>
+    <!-- Posts Tab -->
+    <mat-tab label="Posts">
+      <div class="p-4">
+        <button mat-raised-button color="primary" (click)="openDialog('post', 'create')" class="mb-4">
+          <mat-icon>add</mat-icon> Add Post
+        </button>
+
+        <table mat-table [dataSource]="posts" class="w-full">
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="categoryName">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let element">{{ element.categoryName || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="openDialog('post', 'edit', element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteEntity('post', element.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['title', 'categoryName', 'status', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['title', 'categoryName', 'status', 'actions'];"></tr>
+        </table>
+      </div>
+    </mat-tab>
+
+    <!-- Categories Tab -->
+    <mat-tab label="Categories">
+      <div class="p-4">
+        <button mat-raised-button color="primary" (click)="openDialog('category', 'create')" class="mb-4">
+          <mat-icon>add</mat-icon> Add Category
+        </button>
+
+        <table mat-table [dataSource]="categories" class="w-full">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.description || '-' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="openDialog('category', 'edit', element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteEntity('category', element.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
+        </table>
+      </div>
+    </mat-tab>
+
+    <!-- Tags Tab -->
+    <mat-tab label="Tags">
+      <div class="p-4">
+        <button mat-raised-button color="primary" (click)="openDialog('tag', 'create')" class="mb-4">
+          <mat-icon>add</mat-icon> Add Tag
+        </button>
+
+        <table mat-table [dataSource]="tags" class="w-full">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="openDialog('tag', 'edit', element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteEntity('tag', element.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'actions'];"></tr>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

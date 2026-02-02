@@ -23,10 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class SidebarComponent {
   menuItems = [
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
-    { label: 'Posts', icon: 'article', route: '/posts' },
-    { label: 'Categories', icon: 'category', route: '/categories' },
-    { label: 'Tags', icon: 'local_offer', route: '/tags' },
-    { label: 'Comments', icon: 'comment', route: '/comments' },
+    { label: 'Admin', icon: 'admin_panel_settings', route: '/admin' },
     { label: 'Analytics', icon: 'analytics', route: '/analytics' },
   ];
 
