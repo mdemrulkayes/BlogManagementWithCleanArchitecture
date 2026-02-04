@@ -1,0 +1,29 @@
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  background-color: #f5f5f5;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #fafafa;
+}
+
+button {
+  margin: 0 4px;
+}

@@ -28,7 +28,7 @@ public class Post : EndpointGroupBase
 
         builder.MapGroup(this)
             .WithApiVersionSet(apiVersionSet)
-            //.RequireAuthorization()
+            .RequireAuthorization()
             .MapGet(GetAllPublishedPost, responseType:typeof(PagedListDto<PostResponse>))
             .MapGet(GetPostById, "{postId}", responseType: typeof(PostResponse))
             .MapPost(CreatePost, responseType: typeof(long))
@@ -72,8 +72,9 @@ public class Post : EndpointGroupBase
         return ReturnResultValue(result);
     }
 
-    private static async Task<IResult> GetAllPublishedPost(ISender sender, [AsParameters] GetAllPostQuery query)
+    private static async Task<IResult> GetAllPublishedPost(ISender sender, int pageNumber = 1, int pageSize = 10)
     {
+        var query = new GetAllPostQuery(pageNumber, pageSize);
         var result = await sender.Send(query);
         return ReturnResultValue(result);
     }

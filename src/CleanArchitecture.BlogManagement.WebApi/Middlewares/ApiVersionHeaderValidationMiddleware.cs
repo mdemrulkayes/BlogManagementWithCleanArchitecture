@@ -8,21 +8,23 @@ public sealed class ApiVersionHeaderValidationMiddleware(RequestDelegate next, I
 
     public async Task InvokeAsync(HttpContext context)
     {
-        if (!context.Request.Headers.TryGetValue("x-api-version", out var apiVersion))
+        // Skip version validation for OpenAPI and Scalar documentation endpoints
+        var path = context.Request.Path.Value?.ToLower();
+        if (path?.Contains("/openapi") == true || 
+            path?.Contains("/scalar") == true ||
+            path?.Contains("/swagger") == true)
         {
-            logger.LogWarning("API version header is missing.");
-            var problemDetails = new ProblemDetails()
-            {
-                Title = "ApiVersionUnspecified",
-                Detail = "An API version is required, but was not specified",
-                Status = StatusCodes.Status400BadRequest,
-                Type = "https://docs.api-versioning.org/problems#unspecified"
-            };
-            context.Response.StatusCode = problemDetails.Status.Value;
-
-            await context.Response.WriteAsJsonAsync(problemDetails);
+            await Next(context);
             return;
         }
+
+        if (!context.Request.Headers.TryGetValue("x-api-version", out var apiVersion))
+        {
+            logger.LogWarning("API version header is missing. Using default version 1.");
+            // Set default version to 1 if not provided
+            context.Request.Headers["x-api-version"] = "1";
+        }
+        
         await Next(context);
     }
 }

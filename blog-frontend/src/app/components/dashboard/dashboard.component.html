@@ -1,0 +1,148 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <!-- Page Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+    <p class="text-gray-600 mt-2">Welcome back! Here's your blog overview.</p>
+  </div>
+
+  <!-- Loading State -->
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" *ngIf="!loading">
+    <!-- Total Posts Card -->
+    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
+      <mat-card-content class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Total Posts</p>
+            <p class="text-2xl font-bold text-gray-900 mt-2">{{ stats.totalPosts || 0 }}</p>
+          </div>
+          <mat-icon class="text-blue-500 text-4xl">article</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Published Posts Card -->
+    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
+      <mat-card-content class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Published</p>
+            <p class="text-2xl font-bold text-green-600 mt-2">{{ stats.publishedPosts || 0 }}</p>
+          </div>
+          <mat-icon class="text-green-500 text-4xl">check_circle</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Draft Posts Card -->
+    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
+      <mat-card-content class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Drafts</p>
+            <p class="text-2xl font-bold text-yellow-600 mt-2">{{ stats.draftPosts || 0 }}</p>
+          </div>
+          <mat-icon class="text-yellow-500 text-4xl">edit</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Categories Card -->
+    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
+      <mat-card-content class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Categories</p>
+            <p class="text-2xl font-bold text-purple-600 mt-2">{{ stats.totalCategories || 0 }}</p>
+          </div>
+          <mat-icon class="text-purple-500 text-4xl">category</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Recent Posts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2">
+      <mat-card>
+        <mat-card-header class="px-6 py-4 border-b border-gray-200">
+          <mat-card-title>Recent Posts</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-6">
+          <div *ngIf="recentPosts.length === 0" class="text-center py-8">
+            <p class="text-gray-500">No posts yet. Create your first post!</p>
+            <button mat-raised-button color="primary" class="mt-4">
+              <mat-icon>add</mat-icon>
+              New Post
+            </button>
+          </div>
+          <div *ngFor="let post of recentPosts" class="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 cursor-pointer">
+                  {{ post.title }}
+                </h3>
+                <p class="text-gray-600 text-sm mt-1">{{ post.excerpt || post.content?.substring(0, 100) }}</p>
+                <div class="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                  <span>{{ post.createdAt | date: 'short' }}</span>
+                  <span class="px-2 py-1 rounded text-white" [ngClass]="post.status === 'Published' ? 'bg-green-500' : 'bg-yellow-500'">
+                    {{ post.status }}
+                  </span>
+                </div>
+              </div>
+              <button mat-icon-button>
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Quick Actions Sidebar -->
+    <div class="lg:col-span-1">
+      <mat-card>
+        <mat-card-header class="px-6 py-4 border-b border-gray-200">
+          <mat-card-title>Quick Actions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-6">
+          <div class="space-y-3">
+            <button mat-stroked-button fullWidth class="justify-start">
+              <mat-icon class="mr-2">add</mat-icon>
+              New Post
+            </button>
+            <button mat-stroked-button fullWidth class="justify-start">
+              <mat-icon class="mr-2">folder_plus</mat-icon>
+              New Category
+            </button>
+            <button mat-stroked-button fullWidth class="justify-start">
+              <mat-icon class="mr-2">local_offer</mat-icon>
+              New Tag
+            </button>
+            <button mat-stroked-button fullWidth class="justify-start">
+              <mat-icon class="mr-2">analytics</mat-icon>
+              View Analytics
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Blog Info Card -->
+      <mat-card class="mt-6">
+        <mat-card-header class="px-6 py-4 border-b border-gray-200">
+          <mat-card-title>Blog Info</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-6 text-sm text-gray-600">
+          <p class="mb-3">
+            <strong>Platform:</strong> Clean Architecture Blog Management
+          </p>
+          <p>
+            <strong>Version:</strong> 1.0.0
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
