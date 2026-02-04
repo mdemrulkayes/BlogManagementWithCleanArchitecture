@@ -22,8 +22,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore CleanArchitecture.BlogManagement.sln
+      run: dotnet restore CleanArchitecture.BlogManagement.slnx
     - name: Build
-      run: dotnet build --no-restore CleanArchitecture.BlogManagement.sln
+      run: dotnet build --no-restore CleanArchitecture.BlogManagement.slnx
     - name: Test
-      run: dotnet test --no-build --verbosity normal CleanArchitecture.BlogManagement.sln
+      run: dotnet test --no-build --verbosity normal CleanArchitecture.BlogManagement.slnx
