@@ -7,47 +7,29 @@
 
     <mat-card-content class="p-6">
       <!-- Success Message -->
-      <div *ngIf="success" class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-        {{ success }}
-      </div>
-
-      <!-- Error Message -->
-      <div *ngIf="error" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+       @if (success) {
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+          {{ success }}
+        </div>
+       } @else if (error) {
+        <!-- Error Message -->
+      <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
         {{ error }}
       </div>
+    }
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
-        <!-- First Name -->
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>First Name</mat-label>
-          <input matInput formControlName="firstName" placeholder="Enter first name">
-          <mat-icon matSuffix>person</mat-icon>
-          <mat-error *ngIf="f['firstName'].hasError('required')">
-            First name is required
-          </mat-error>
-        </mat-form-field>
-
-        <!-- Last Name -->
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Last Name</mat-label>
-          <input matInput formControlName="lastName" placeholder="Enter last name">
-          <mat-icon matSuffix>person</mat-icon>
-          <mat-error *ngIf="f['lastName'].hasError('required')">
-            Last name is required
-          </mat-error>
-        </mat-form-field>
-
         <!-- Email -->
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="email" placeholder="Enter your email">
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="f['email'].hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="f['email'].hasError('email')">
-            Please enter a valid email
-          </mat-error>
+          @if (f['email'].hasError('required')) {
+             <mat-error>Email is required</mat-error>
+          }
+          @if (f['email'].hasError('email')) {
+            <mat-error>Please enter a valid email</mat-error>
+          }
         </mat-form-field>
 
         <!-- Password -->
@@ -60,12 +42,12 @@
           <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="f['password'].hasError('required')">
-            Password is required
-          </mat-error>
-          <mat-error *ngIf="f['password'].hasError('minlength')">
-            Password must be at least 8 characters
-          </mat-error>
+          @if (f['password'].hasError('required')) {
+            <mat-error>Password is required</mat-error>
+          }
+          @if (f['password'].hasError('minlength')) {
+            <mat-error>Password must be at least 8 characters</mat-error>
+          }
         </mat-form-field>
 
         <!-- Confirm Password -->
@@ -78,18 +60,21 @@
           <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPasswordVisibility()">
             <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="f['confirmPassword'].hasError('required')">
-            Please confirm your password
-          </mat-error>
-          <mat-error *ngIf="registerForm.hasError('passwordMismatch')">
-            Passwords do not match
-          </mat-error>
+          @if (f['confirmPassword'].hasError('required')) {
+            <mat-error>Please confirm your password</mat-error>
+          }
+          @if (registerForm.hasError('passwordMismatch')) {
+            <mat-error>Passwords do not match</mat-error>
+          }
         </mat-form-field>
 
         <!-- Register Button -->
         <button mat-raised-button color="primary" fullWidth type="submit" [disabled]="loading">
-          <span *ngIf="!loading">Create Account</span>
-          <mat-spinner *ngIf="loading" diameter="20" class="mr-2"></mat-spinner>
+          @if (!loading) {
+            <span>Create Account</span>
+          } @else {
+          <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+          }
         </button>
       </form>
 

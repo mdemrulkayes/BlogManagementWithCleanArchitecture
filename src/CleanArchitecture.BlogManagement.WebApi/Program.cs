@@ -39,6 +39,16 @@ builder.Services.AddApiVersioning(opt =>
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,7 +64,7 @@ app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 
 app.MigrateDatabase();
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseRouting();

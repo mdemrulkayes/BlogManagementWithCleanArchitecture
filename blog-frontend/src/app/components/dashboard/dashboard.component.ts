@@ -36,5 +36,13 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboardData(): void {
+    this.loading = false;
+    // Mock data for demonstration purposes
+    this.stats = {
+      totalPosts: 120,
+      publishedPosts: 95,
+      draftPosts: 25,
+      totalCategories: 10
+    };
   }
 }

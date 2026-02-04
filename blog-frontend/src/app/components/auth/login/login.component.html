@@ -7,9 +7,11 @@
 
     <mat-card-content class="p-6">
       <!-- Error Message -->
-      <div *ngIf="error" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+       @if (error) {
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
         {{ error }}
       </div>
+       }
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <!-- Email Field -->
@@ -20,12 +22,9 @@
             formControlName="email"
             placeholder="Enter your email">
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="f['email'].hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="f['email'].hasError('email')">
-            Please enter a valid email
-          </mat-error>
+          @if (f['email'].hasError('required')) {
+            <mat-error>Email is required</mat-error>  
+          }
         </mat-form-field>
 
         <!-- Password Field -->
@@ -38,18 +37,21 @@
           <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="f['password'].hasError('required')">
-            Password is required
-          </mat-error>
-          <mat-error *ngIf="f['password'].hasError('minlength')">
-            Password must be at least 6 characters
-          </mat-error>
+          @if (f['password'].hasError('required')) {
+            <mat-error>Password is required</mat-error>
+          }
+          @if (f['password'].hasError('minlength')) {
+            <mat-error>Password must be at least 6 characters</mat-error>
+          }
         </mat-form-field>
 
         <!-- Login Button -->
         <button mat-raised-button color="primary" fullWidth type="submit" [disabled]="loading">
-          <span *ngIf="!loading">Sign In</span>
-          <mat-spinner *ngIf="loading" diameter="20" class="mr-2"></mat-spinner>
+          @if (!loading) {
+          <span>Sign In</span>
+          } @else {
+            <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+          }
         </button>
       </form>
 
@@ -61,13 +63,6 @@
             Sign up
           </a>
         </p>
-      </div>
-
-      <!-- Demo Credentials -->
-      <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
-        <p class="text-sm text-blue-900 font-semibold mb-2">Demo Credentials:</p>
-        <p class="text-xs text-blue-800">Email: demo@example.com</p>
-        <p class="text-xs text-blue-800">Password: password123</p>
       </div>
     </mat-card-content>
   </mat-card>

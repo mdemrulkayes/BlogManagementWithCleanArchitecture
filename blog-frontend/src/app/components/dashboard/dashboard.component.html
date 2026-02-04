@@ -6,7 +6,9 @@
   </div>
 
   <!-- Loading State -->
-  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+   @if (loading) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+   }
 
   <!-- Stats Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" *ngIf="!loading">
@@ -71,14 +73,18 @@
           <mat-card-title>Recent Posts</mat-card-title>
         </mat-card-header>
         <mat-card-content class="p-6">
-          <div *ngIf="recentPosts.length === 0" class="text-center py-8">
+          @if (recentPosts.length === 0) {
+            <div class="text-center py-8">
             <p class="text-gray-500">No posts yet. Create your first post!</p>
             <button mat-raised-button color="primary" class="mt-4">
               <mat-icon>add</mat-icon>
               New Post
             </button>
           </div>
-          <div *ngFor="let post of recentPosts" class="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
+          }
+          
+          @for (post of recentPosts; track $index) {
+            <div class="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
             <div class="flex justify-between items-start">
               <div class="flex-1">
                 <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 cursor-pointer">
@@ -97,6 +103,8 @@
               </button>
             </div>
           </div>
+          }
+          
         </mat-card-content>
       </mat-card>
     </div>

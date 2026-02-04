@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
+import { RegisterRequest } from '../../../../client';
 
 @Component({
   selector: 'app-register',
@@ -48,8 +49,7 @@ export class RegisterComponent implements OnInit {
 
   initForm(): void {
     this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
@@ -82,26 +82,24 @@ export class RegisterComponent implements OnInit {
     this.error = '';
     this.success = '';
 
-    const user = {
-      firstName: this.f['firstName'].value,
-      lastName: this.f['lastName'].value,
+    const user: RegisterRequest = {
       email: this.f['email'].value,
       password: this.f['password'].value
     };
 
-    this.authService.register(user).subscribe(
-      response => {
+    this.authService.register(user).subscribe({
+      next: () => {
         this.loading = false;
         this.success = 'Registration successful! Redirecting to login...';
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 2000);
       },
-      error => {
+      error: (error) => {
         this.loading = false;
         this.error = error.error?.message || 'Registration failed. Please try again.';
       }
-    );
+    });
   }
 
   togglePasswordVisibility(): void {
