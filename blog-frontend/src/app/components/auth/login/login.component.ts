@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
+import { LoginRequest } from '../../../../client';
 
 @Component({
   selector: 'app-login',
@@ -64,21 +65,23 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    this.authService.login(
-      this.f['email'].value,
-      this.f['password'].value
-    ).subscribe(
-      response => {
+    let request: LoginRequest = {
+      email: this.f['email'].value,
+      password: this.f['password'].value
+    };
+
+    this.authService.login(request).subscribe({
+      next: (response) => {
         this.loading = false;
-        if (response.success || response.token) {
+        if (response.accessToken) {
           this.router.navigate(['/dashboard']);
         }
       },
-      error => {
+      error: (error) => {
         this.loading = false;
         this.error = error.error?.message || 'Login failed. Please try again.';
       }
-    );
+    })
   }
 
   togglePasswordVisibility(): void {

@@ -1,42 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AccessTokenResponse, IdentityService, LoginRequest, RegisterRequest } from '../../client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7290/api/auth';
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private identityService: IdentityService) {
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       this.currentUserSubject.next(JSON.parse(savedUser));
     }
   }
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap((response: any) => {
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
-          this.currentUserSubject.next(response.user);
+  login(loginRequest: LoginRequest): Observable<AccessTokenResponse> {
+    return this.identityService.apiIdentityLoginPost(loginRequest).pipe(
+      tap((response: AccessTokenResponse) => {
+        if (response && response.accessToken) {
+          localStorage.setItem('token', response.accessToken);
         }
       })
     );
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, user);
+  register(user: RegisterRequest): Observable<any> {
+    return this.identityService.apiIdentityRegisterPost(user);
   }
 
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
 

@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { BlogService } from '../../services/blog.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,31 +29,12 @@ export class DashboardComponent implements OnInit {
   recentPosts: any[] = [];
   loading = true;
 
-  constructor(private blogService: BlogService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.loadDashboardData();
   }
 
   loadDashboardData(): void {
-    this.blogService.getDashboardStats().subscribe(
-      data => {
-        this.stats = data;
-        this.loading = false;
-      },
-      error => {
-        console.error('Error loading dashboard stats:', error);
-        this.loading = false;
-      }
-    );
-
-    this.blogService.getAllPosts(1, 5).subscribe(
-      data => {
-        this.recentPosts = data.items;
-      },
-      error => {
-        console.error('Error loading recent posts:', error);
-      }
-    );
   }
 }

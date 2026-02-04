@@ -12,14 +12,14 @@
   <!-- Main Menu -->
   <mat-nav-list class="p-4">
     <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4 px-4">Menu</h3>
-    
-    <a *ngFor="let item of menuItems" 
-       [routerLink]="item.route"
+    @for (item of menuItems; track $index) {
+      <a [routerLink]="item.route"
        mat-list-item 
-       class="mb-2 rounded hover:bg-gray-800 transition-colors">
+       class="mb-2 rounded text-white hover:bg-gray-800 transition-colors">
       <mat-icon matListItemIcon class="text-blue-400">{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.label }}</span>
+      <span class="text-gray-400">{{ item.label }}</span>
     </a>
+    }
   </mat-nav-list>
 
   <!-- Divider -->
@@ -28,14 +28,14 @@
   <!-- Settings Menu -->
   <mat-nav-list class="p-4">
     <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4 px-4">Settings</h3>
-    
-    <a *ngFor="let item of settingsItems"
-       [routerLink]="item.route"
-       mat-list-item
-       class="mb-2 rounded hover:bg-gray-800 transition-colors">
-      <mat-icon matListItemIcon class="text-gray-400">{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.label }}</span>
+    @for (item of settingsItems; track $index) {
+      <a [routerLink]="item.route"
+         mat-list-item
+         class="mb-2 rounded text-white hover:bg-gray-800 transition-colors">
+        <mat-icon matListItemIcon class="text-gray-400">{{ item.icon }}</mat-icon>
+      <span class="text-gray-400">{{ item.label }}</span>
     </a>
+  }
   </mat-nav-list>
 
   <!-- Footer Info -->
