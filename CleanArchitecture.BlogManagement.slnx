@@ -1,0 +1,24 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/CleanArchitecture.BlogManagement.Application/CleanArchitecture.BlogManagement.Application.csproj" />
+    <Project Path="src/CleanArchitecture.BlogManagement.Core/CleanArchitecture.BlogManagement.Core.csproj" />
+    <Project Path="src/CleanArchitecture.BlogManagement.Infrastructure/CleanArchitecture.BlogManagement.Infrastructure.csproj" />
+    <Project Path="src/CleanArchitecture.BlogManagement.WebApi/CleanArchitecture.BlogManagement.WebApi.csproj" />
+    <Project Path="src/SharedKarnel/SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CleanArchitecture.BlogManagement.Core.UnitTest/CleanArchitecture.BlogManagement.Core.UnitTest.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Platform Project="AnyCPU" />
+    <Build />
+  </Project>
+</Solution>
