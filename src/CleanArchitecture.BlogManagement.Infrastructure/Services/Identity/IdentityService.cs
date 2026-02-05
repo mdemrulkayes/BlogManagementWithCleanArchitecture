@@ -10,10 +10,12 @@ internal sealed class IdentityService(IHttpContextAccessor httpContextAccessor) 
     //                   ?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.ToString() ??
     //               throw new NullReferenceException("User ID not found"));
 
-    public Guid UserId =>
-        Guid.Parse(httpContextAccessor.HttpContext?.User?.Claims
-                       ?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.ToString() ??
-                   Guid.NewGuid().ToString());
+    //public Guid UserId =>
+    //    Guid.Parse(httpContextAccessor.HttpContext?.User?.Claims
+    //                   ?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.ToString() ??
+    //               Guid.NewGuid().ToString());
+
+    public Guid UserId => Guid.NewGuid();
 
     public Task<bool> IsValidUser()
     {
