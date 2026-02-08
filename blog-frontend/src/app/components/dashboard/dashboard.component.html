@@ -6,12 +6,13 @@
   </div>
 
   <!-- Loading State -->
-   @if (loading) {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-   }
+  @if (loading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 
   <!-- Stats Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" *ngIf="!loading">
+  @if (!loading) {
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Total Posts Card -->
     <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
       <mat-card-content class="p-6">
@@ -64,7 +65,7 @@
       </mat-card-content>
     </mat-card>
   </div>
-
+  }
   <!-- Recent Posts Section -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2">
@@ -73,8 +74,8 @@
           <mat-card-title>Recent Posts</mat-card-title>
         </mat-card-header>
         <mat-card-content class="p-6">
-          @if (recentPosts.length === 0) {
-            <div class="text-center py-8">
+          @if (posts().totalCount === 0) {
+          <div class="text-center py-8">
             <p class="text-gray-500">No posts yet. Create your first post!</p>
             <button mat-raised-button color="primary" class="mt-4">
               <mat-icon>add</mat-icon>
@@ -82,9 +83,9 @@
             </button>
           </div>
           }
-          
-          @for (post of recentPosts; track $index) {
-            <div class="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
+
+          @for (post of posts().items; track $index) {
+          <div class="mb-6 pb-6 border-b border-gray-200 last:border-b-0">
             <div class="flex justify-between items-start">
               <div class="flex-1">
                 <h3 class="text-lg font-semibold text-gray-900 hover:text-blue-600 cursor-pointer">
@@ -92,9 +93,10 @@
                 </h3>
                 <p class="text-gray-600 text-sm mt-1">{{ post.excerpt || post.content?.substring(0, 100) }}</p>
                 <div class="flex items-center gap-4 mt-3 text-xs text-gray-500">
-                  <span>{{ post.createdAt | date: 'short' }}</span>
-                  <span class="px-2 py-1 rounded text-white" [ngClass]="post.status === 'Published' ? 'bg-green-500' : 'bg-yellow-500'">
-                    {{ post.status }}
+                  <span>{{ post.createdAt | date:'short' }}</span>
+                  <span class="px-2 py-1 rounded text-white" [class.bg-green-500]="post.statusText === 'Published'"
+                    [class.bg-yellow-500]="post.statusText === 'Draft'">
+                    {{ post.statusText }}
                   </span>
                 </div>
               </div>
@@ -104,7 +106,7 @@
             </div>
           </div>
           }
-          
+
         </mat-card-content>
       </mat-card>
     </div>
@@ -116,8 +118,8 @@
           <mat-card-title>Quick Actions</mat-card-title>
         </mat-card-header>
         <mat-card-content class="p-6">
-          <div class="space-y-3">
-            <button mat-stroked-button fullWidth class="justify-start">
+          <div class="space-y-3 space-x-3">
+            <button mat-stroked-button fullWidth class="justify-start mt-3 ml-3">
               <mat-icon class="mr-2">add</mat-icon>
               New Post
             </button>

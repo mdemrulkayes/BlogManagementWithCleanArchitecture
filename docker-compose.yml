@@ -13,16 +13,18 @@ services:
     ports:
     - 8081:8081
     - 8080:8080
-  seq:
-    image: datalust/seq:latest
-    container_name: blog-seq
-    volumes:
-      - seqvolume:/var/opt/seq/data 
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-    - 5341:5341
-    - 8089:80
+    depends_on:
+     - blog.db
+  # seq:
+  #   image: datalust/seq:latest
+  #   container_name: blog-seq
+  #   volumes:
+  #     - seqvolume:/var/opt/seq/data 
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #   ports:
+  #   - 5341:5341
+  #   - 8089:80
   blog.db:
     container_name: blog-db
     image: mcr.microsoft.com/mssql/server:2022-latest

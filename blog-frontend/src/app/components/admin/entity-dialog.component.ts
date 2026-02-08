@@ -1,6 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,10 +30,10 @@ export interface EntityDialogData {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './entity-dialog.component.html',
-  styleUrl: './entity-dialog.component.scss'
+  styleUrl: './entity-dialog.component.scss',
 })
 export class EntityDialogComponent {
   private fb = inject(FormBuilder);
@@ -36,7 +45,7 @@ export class EntityDialogComponent {
 
   constructor() {
     this.form = this.buildForm();
-    
+
     if (this.data.item) {
       this.form.patchValue(this.data.item);
     }
@@ -44,23 +53,16 @@ export class EntityDialogComponent {
 
   buildForm(): FormGroup {
     switch (this.data.entity) {
-      case 'post':
-        return this.fb.group({
-          id: [''],
-          title: ['', Validators.required],
-          content: [''],
-          categoryId: ['']
-        });
       case 'category':
         return this.fb.group({
           id: [''],
           name: ['', Validators.required],
-          description: ['']
+          description: [''],
         });
       case 'tag':
         return this.fb.group({
           id: [''],
-          name: ['', Validators.required]
+          name: ['', Validators.required],
         });
       default:
         return this.fb.group({});
@@ -73,9 +75,9 @@ export class EntityDialogComponent {
       return;
     }
     const payload = this.form.value;
-    this.dialogRef.close({ 
-      action: this.data.mode === 'create' ? 'create' : 'update', 
-      payload 
+    this.dialogRef.close({
+      action: this.data.mode === 'create' ? 'create' : 'update',
+      payload,
     });
   }
 
