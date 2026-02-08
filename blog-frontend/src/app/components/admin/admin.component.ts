@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +11,7 @@ import { CategoryResponse, CategoryService, PostResponse, PostService, TagRespon
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule, MatCardModule],
+  imports: [MatTabsModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule, MatCardModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })

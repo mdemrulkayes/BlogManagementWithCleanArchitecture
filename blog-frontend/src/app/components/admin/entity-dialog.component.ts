@@ -1,7 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,21 +15,28 @@ export interface EntityDialogData {
 @Component({
   selector: 'app-entity-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './entity-dialog.component.html',
-  styleUrls: ['./entity-dialog.component.scss']
+  styleUrl: './entity-dialog.component.scss'
 })
 export class EntityDialogComponent {
-  form: FormGroup;
-  entityLabel = '';
+  private fb = inject(FormBuilder);
+  private dialogRef = inject(MatDialogRef<EntityDialogComponent>);
+  public data = inject<EntityDialogData>(MAT_DIALOG_DATA);
 
-  constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EntityDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EntityDialogData
-  ) {
-    this.entityLabel = this.data.entity;
+  form: FormGroup;
+  entityLabel = this.data.entity;
+
+  constructor() {
     this.form = this.buildForm();
+    
     if (this.data.item) {
       this.form.patchValue(this.data.item);
     }
@@ -63,10 +69,14 @@ export class EntityDialogComponent {
 
   save() {
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
     const payload = this.form.value;
-    this.dialogRef.close({ action: this.data.mode === 'create' ? 'create' : 'update', payload });
+    this.dialogRef.close({ 
+      action: this.data.mode === 'create' ? 'create' : 'update', 
+      payload 
+    });
   }
 
   cancel() {

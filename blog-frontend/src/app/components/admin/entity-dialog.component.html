@@ -1,7 +1,10 @@
-<h2 class="text-lg font-bold mb-4">{{ data.mode === 'create' ? 'Create' : 'Edit' }} {{ entityLabel }}</h2>
+<h2 class="text-lg font-bold mb-4">
+  {{ data.mode === 'create' ? 'Create' : 'Edit' }} {{ entityLabel }}
+</h2>
 
 <form [formGroup]="form" (ngSubmit)="save()" class="space-y-4">
-  <div *ngIf="data.entity === 'post'">
+  
+  @if (data.entity === 'post') {
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" />
@@ -11,9 +14,9 @@
       <mat-label>Content</mat-label>
       <textarea matInput formControlName="content" rows="6"></textarea>
     </mat-form-field>
-  </div>
+  }
 
-  <div *ngIf="data.entity === 'category'">
+  @if (data.entity === 'category') {
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
@@ -23,17 +26,18 @@
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" rows="3"></textarea>
     </mat-form-field>
-  </div>
+  }
 
-  <div *ngIf="data.entity === 'tag'">
+  @if (data.entity === 'tag') {
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
-  </div>
+  }
 
   <div class="flex justify-end gap-2 mt-4">
     <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
     <button mat-raised-button color="primary" type="submit">Save</button>
   </div>
+
 </form>

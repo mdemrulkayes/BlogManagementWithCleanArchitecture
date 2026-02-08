@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +14,7 @@ import { RegisterRequest } from '../../../../client';
   selector: 'app-register',
   standalone: true,
   imports: [
-    CommonModule,
+    
     ReactiveFormsModule,
     RouterModule,
     MatCardModule,
