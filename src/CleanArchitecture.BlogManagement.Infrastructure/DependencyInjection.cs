@@ -87,7 +87,10 @@ public static class DependencyInjection
     {
         using var scope = app.Services.CreateScope();
         using var database = scope.ServiceProvider.GetRequiredService<BlogDbContext>();
-        database.Database.Migrate();
+        if (database.Database.IsSqlServer())
+        {
+            database.Database.Migrate();
+        }
         return app;
     }
 }

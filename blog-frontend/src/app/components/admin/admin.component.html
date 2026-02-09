@@ -9,7 +9,7 @@
           <mat-icon>add</mat-icon> Add Post
         </button>
 
-        <table mat-table [dataSource]="posts" class="w-full">
+        <table mat-table [dataSource]="posts()" class="w-full">
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef>Title</th>
             <td mat-cell *matCellDef="let element">{{ element.title }}</td>
@@ -50,7 +50,7 @@
           <mat-icon>add</mat-icon> Add Category
         </button>
 
-        <table mat-table [dataSource]="categories" class="w-full">
+        <table mat-table [dataSource]="categories()" class="w-full">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -86,7 +86,7 @@
           <mat-icon>add</mat-icon> Add Tag
         </button>
 
-        <table mat-table [dataSource]="tags" class="w-full">
+        <table mat-table [dataSource]="tags()" class="w-full">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>

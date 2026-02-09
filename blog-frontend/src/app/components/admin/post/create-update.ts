@@ -257,7 +257,7 @@ export class CreateUpdate implements OnInit {
 }
 
 export enum PostStatus {
-  DRAFT = 1,
-  PUBLISHED = 2,
-  ABANDONED = 3,
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ABANDONED = 'ABANDONED',
 }

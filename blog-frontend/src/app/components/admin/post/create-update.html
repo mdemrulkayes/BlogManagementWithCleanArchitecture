@@ -72,7 +72,8 @@
                         <mat-label>Status</mat-label>
                         <mat-select formControlName="status">
                             @for(s of postStatuses; track s) {
-                            <mat-option [value]="s">{{s}}</mat-option> }
+                            <mat-option [value]="s">{{s}}</mat-option> 
+                        }
                         </mat-select>
                     </mat-form-field>
                 </mat-card-content>

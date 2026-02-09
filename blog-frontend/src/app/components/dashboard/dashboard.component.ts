@@ -11,6 +11,7 @@ import {
 } from '../../../client';
 import { firstValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,7 @@ import { DatePipe } from '@angular/common';
 export class DashboardComponent implements OnInit {
   private readonly postService = inject(PostService);
   private readonly categoryService = inject(CategoryService);
+  private readonly router = inject(Router);
 
   posts = signal<PagedListDtoOfPostResponse>({ items: [], totalCount: 0 });
   allCategories = signal<PagedListDtoOfCategoryResponse>({
@@ -71,5 +73,9 @@ export class DashboardComponent implements OnInit {
       draftPosts: 25,
       totalCategories: this.allCategories().totalCount || 0,
     };
+  }
+
+  navigateToCreatePost() {
+    this.router.navigate(['/post/create'], { replaceUrl: true });
   }
 }
