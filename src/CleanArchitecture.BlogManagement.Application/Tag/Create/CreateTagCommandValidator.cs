@@ -11,8 +11,8 @@ public sealed class CreateTagCommandValidator : AbstractValidator<CreateTagComma
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Name can not be empty")
-            .Length(5, 50)
-            .WithMessage("Name can not be less than 5 characters and can not be more than 50 characters")
+            .Length(1, 50)
+            .WithMessage("Name can not be less than 1 characters and can not be more than 50 characters")
             .MustAsync(async (name, token) =>
             {
                 var isNameAlreadyExists = await repository.AnyAsync(x =>
@@ -22,9 +22,9 @@ public sealed class CreateTagCommandValidator : AbstractValidator<CreateTagComma
             .WithMessage("Tag name already exists");
 
         RuleFor(x => x.Description)
-            .Length(10, 150)
+            .Length(1, 150)
             .When(x => !string.IsNullOrWhiteSpace(x.Description))
-            .WithMessage("Description can not be less than 10 characters and can not be more than 150 characters");
+            .WithMessage("Description can not be less than 1 characters and can not be more than 150 characters");
 
     }
 }

@@ -55,13 +55,13 @@ export class EntityDialogComponent {
     switch (this.data.entity) {
       case 'category':
         return this.fb.group({
-          id: [''],
+          categoryId: [''],
           name: ['', Validators.required],
           description: [''],
         });
       case 'tag':
         return this.fb.group({
-          id: [''],
+          tagId: [''],
           name: ['', Validators.required],
         });
       default:

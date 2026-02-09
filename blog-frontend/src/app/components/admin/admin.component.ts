@@ -98,24 +98,26 @@ export class AdminComponent implements OnInit {
             complete: async () => await this.loadAll(),
           });
         } else {
-          this.categoryService.updateCategory(payload.id, payload).subscribe({
-            next: () => {
-              this.snackbar.open('Category updated', 'Close', {
-                duration: 3000,
-              });
-            },
-            error: (err) => {
-              let errorMsg = parseApiErrors(err);
-              this.snackbar.open(
-                `Failed to update category: ${errorMsg}`,
-                'Close',
-                {
+          this.categoryService
+            .updateCategory(payload.categoryId, payload)
+            .subscribe({
+              next: () => {
+                this.snackbar.open('Category updated', 'Close', {
                   duration: 3000,
-                },
-              );
-            },
-            complete: async () => await this.loadAll(),
-          });
+                });
+              },
+              error: (err) => {
+                let errorMsg = parseApiErrors(err);
+                this.snackbar.open(
+                  `Failed to update category: ${errorMsg}`,
+                  'Close',
+                  {
+                    duration: 3000,
+                  },
+                );
+              },
+              complete: async () => await this.loadAll(),
+            });
         }
       }
 
@@ -134,7 +136,7 @@ export class AdminComponent implements OnInit {
             complete: async () => await this.loadAll(),
           });
         } else {
-          this.tagService.updateTag(payload.id, payload).subscribe({
+          this.tagService.updateTag(payload.tagId, payload).subscribe({
             next: () => {
               this.snackbar.open('Tag updated', 'Close', { duration: 3000 });
             },

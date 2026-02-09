@@ -11,8 +11,8 @@ internal class CreateCategoryCommandValidator : AbstractValidator<CreateCategory
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Category Name can not be empty")
-            .Length(5,50)
-            .WithMessage("Category name length must be in 5 to 50 characters")
+            .Length(1,50)
+            .WithMessage("Category name length must be in 1 to 50 characters")
             .MustAsync(async (categoryName,ct) => await IsUniqueCategoryName(categoryName, ct))
             .WithMessage("Category name already exists");
     }
