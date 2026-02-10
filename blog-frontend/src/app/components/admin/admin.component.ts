@@ -1,6 +1,6 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, inject, OnInit, signal, viewChild, ViewChild } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -18,7 +18,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { parseApiErrors } from '../../utils/error.utils';
 import { Router } from '@angular/router';
-import { MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CdkTableModule } from "@angular/cdk/table";
 
 @Component({
@@ -34,7 +34,7 @@ import { CdkTableModule } from "@angular/cdk/table";
     MatSnackBarModule,
     MatPaginatorModule,
     CdkTableModule
-],
+  ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
@@ -50,12 +50,36 @@ export class AdminComponent implements OnInit {
   totalCategory = computed(() => this.categories().length)
   totalTag = computed(() => this.tags().length)
 
+  postDataSource = new MatTableDataSource<PostResponse>(this.posts());
+  categoryDataSource = new MatTableDataSource<CategoryResponse>(this.categories());
+  tagDataSource = new MatTableDataSource<TagResponse>(this.tags());
+
+  postPaginator = viewChild<MatPaginator>('postPaginator');
+  categoryPaginator = viewChild<MatPaginator>('categoryPaginator');
+  tagPaginator = viewChild<MatPaginator>('tagPaginator');
+
   constructor(
     private dialog: MatDialog,
     private postService: PostService,
     private categoryService: CategoryService,
     private tagService: TagService,
-  ) {}
+  ) {
+    effect(() => {
+      this.postDataSource.data = this.posts();
+      this.categoryDataSource.data = this.categories();
+      this.tagDataSource.data = this.tags();
+      
+      if (this.postPaginator()) {
+        this.postDataSource.paginator = this.postPaginator();
+      }
+      if (this.categoryPaginator()) {
+        this.categoryDataSource.paginator = this.categoryPaginator();
+      }
+      if (this.tagPaginator()) {
+        this.tagDataSource.paginator = this.tagPaginator();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadAll();

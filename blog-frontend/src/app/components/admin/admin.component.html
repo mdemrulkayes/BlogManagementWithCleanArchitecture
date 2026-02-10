@@ -9,7 +9,7 @@
           <mat-icon>add</mat-icon> Add Post
         </button>
 
-        <table mat-table [dataSource]="posts()" class="w-full">
+        <table mat-table [dataSource]="postDataSource" class="w-full">
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef>Title</th>
             <td mat-cell *matCellDef="let element">{{ element.title }}</td>
@@ -36,14 +36,11 @@
               </button>
             </td>
           </ng-container>
-          <ng-container matColumnDef="empty-row">
-            <mat-cell *matCellDef="let element">No Data</mat-cell>
-          </ng-container>
-
+        
           <tr mat-header-row *matHeaderRowDef="['title', 'categoryName', 'status', 'actions']"></tr>
-          <tr mat-row *matRowDef="let row; columns: totalPost() > 0 ? ['title', 'categoryName', 'status', 'actions'] : ['empty-row'];"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['title', 'categoryName', 'status', 'actions'];"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+        <mat-paginator #postPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
           aria-label="Select page of periodic elements">
         </mat-paginator>
       </div>
@@ -56,7 +53,7 @@
           <mat-icon>add</mat-icon> Add Category
         </button>
 
-        <table mat-table [dataSource]="categories()" class="w-full">
+        <table mat-table [dataSource]="categoryDataSource" class="w-full">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -82,7 +79,7 @@
           <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
           <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+        <mat-paginator #categoryPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
           aria-label="Select page of periodic elements">
         </mat-paginator>
       </div>
@@ -95,7 +92,7 @@
           <mat-icon>add</mat-icon> Add Tag
         </button>
 
-        <table mat-table [dataSource]="tags()" class="w-full">
+        <table mat-table [dataSource]="tagDataSource" class="w-full">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -116,7 +113,7 @@
           <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
           <tr mat-row *matRowDef="let row; columns: ['name', 'actions'];"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+        <mat-paginator #tagPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
           aria-label="Select page of periodic elements">
         </mat-paginator>
       </div>
