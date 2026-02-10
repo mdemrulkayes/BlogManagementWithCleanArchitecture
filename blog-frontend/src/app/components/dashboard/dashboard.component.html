@@ -12,7 +12,7 @@
 
   <!-- Stats Grid -->
   @if (!loading) {
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
     <!-- Total Posts Card -->
     <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
       <mat-card-content class="p-6">
@@ -26,32 +26,6 @@
       </mat-card-content>
     </mat-card>
 
-    <!-- Published Posts Card -->
-    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
-      <mat-card-content class="p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-600 text-sm font-medium">Published</p>
-            <p class="text-2xl font-bold text-green-600 mt-2">{{ stats.publishedPosts || 0 }}</p>
-          </div>
-          <mat-icon class="text-green-500 text-4xl">check_circle</mat-icon>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Draft Posts Card -->
-    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
-      <mat-card-content class="p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-600 text-sm font-medium">Drafts</p>
-            <p class="text-2xl font-bold text-yellow-600 mt-2">{{ stats.draftPosts || 0 }}</p>
-          </div>
-          <mat-icon class="text-yellow-500 text-4xl">edit</mat-icon>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
     <!-- Categories Card -->
     <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
       <mat-card-content class="p-6">
@@ -61,6 +35,19 @@
             <p class="text-2xl font-bold text-purple-600 mt-2">{{ stats.totalCategories || 0 }}</p>
           </div>
           <mat-icon class="text-purple-500 text-4xl">category</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Tags Card -->
+    <mat-card class="hover:shadow-lg transition-shadow cursor-pointer">
+      <mat-card-content class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Tags</p>
+            <p class="text-2xl font-bold text-green-600 mt-2">{{ stats.totalTags || 0 }}</p>
+          </div>
+          <mat-icon class="text-green-500 text-4xl">local_offer</mat-icon>
         </div>
       </mat-card-content>
     </mat-card>
@@ -119,15 +106,15 @@
         </mat-card-header>
         <mat-card-content class="p-6">
           <div class="space-y-3 space-x-3">
-            <button mat-stroked-button fullWidth class="justify-start mt-3 ml-3" (click)="navigateToCreatePost()">
+            <button mat-stroked-button fullWidth class="justify-start mt-3 ml-3" (click)="openDialog('post', 'create')">
               <mat-icon class="mr-2">add</mat-icon>
               New Post
             </button>
-            <button mat-stroked-button fullWidth class="justify-start">
+            <button mat-stroked-button fullWidth class="justify-start" (click)="openDialog('category', 'create')">
               <mat-icon class="mr-2">folder_plus</mat-icon>
               New Category
             </button>
-            <button mat-stroked-button fullWidth class="justify-start">
+            <button mat-stroked-button fullWidth class="justify-start" (click)="openDialog('tag', 'create')">
               <mat-icon class="mr-2">local_offer</mat-icon>
               New Tag
             </button>

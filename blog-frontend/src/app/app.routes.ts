@@ -23,4 +23,12 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'post/update/:id',
+    loadComponent: () =>
+      import('./components/admin/post/create-update').then(
+        (m) => m.CreateUpdate,
+      ),
+    canActivate: [AuthGuard],
+  },
 ];

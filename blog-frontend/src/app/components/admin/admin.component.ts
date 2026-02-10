@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +17,9 @@ import {
 } from '../../../client';
 import { firstValueFrom } from 'rxjs';
 import { parseApiErrors } from '../../utils/error.utils';
+import { Router } from '@angular/router';
+import { MatPaginatorModule} from '@angular/material/paginator';
+import { CdkTableModule } from "@angular/cdk/table";
 
 @Component({
   selector: 'app-admin',
@@ -29,16 +32,23 @@ import { parseApiErrors } from '../../utils/error.utils';
     MatDialogModule,
     MatCardModule,
     MatSnackBarModule,
-  ],
+    MatPaginatorModule,
+    CdkTableModule
+],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
   private readonly snackbar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
   posts = signal<PostResponse[]>([]);
   categories = signal<CategoryResponse[]>([]);
   tags = signal<TagResponse[]>([]);
+
+  totalPost = computed(() => this.posts().length);
+  totalCategory = computed(() => this.categories().length)
+  totalTag = computed(() => this.tags().length)
 
   constructor(
     private dialog: MatDialog,
@@ -68,6 +78,21 @@ export class AdminComponent implements OnInit {
     mode: 'create' | 'edit',
     item?: any,
   ) {
+
+    if (entity == 'post' && mode == 'create') {
+      this.router.navigate(['/post/create'], {
+        replaceUrl: true,
+      });
+      return;
+    }
+
+    if (entity == 'post' && mode == 'edit') {
+      this.router.navigate(['/post/update/' + item.postId], {
+        replaceUrl: true,
+      });
+      return;
+    }
+
     const ref = this.dialog.open(EntityDialogComponent, {
       width: '600px',
       data: { entity, mode, item },

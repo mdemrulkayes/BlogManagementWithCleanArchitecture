@@ -63,6 +63,7 @@ export class EntityDialogComponent {
         return this.fb.group({
           tagId: [''],
           name: ['', Validators.required],
+          description: [''],
         });
       default:
         return this.fb.group({});

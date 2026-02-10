@@ -8,10 +8,15 @@ import {
   PagedListDtoOfCategoryResponse,
   PagedListDtoOfPostResponse,
   PostService,
+  TagService,
 } from '../../../client';
 import { firstValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { parseApiErrors } from '../../utils/error.utils';
+import { EntityDialogComponent } from '../admin/entity-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +34,10 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   private readonly postService = inject(PostService);
   private readonly categoryService = inject(CategoryService);
+  private readonly tagService = inject(TagService);
   private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog)
+  private readonly snackbar = inject(MatSnackBar);
 
   posts = signal<PagedListDtoOfPostResponse>({ items: [], totalCount: 0 });
   allCategories = signal<PagedListDtoOfCategoryResponse>({
@@ -75,7 +83,108 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  navigateToCreatePost() {
-    this.router.navigate(['/post/create'], { replaceUrl: true });
-  }
+  openDialog(
+      entity: 'post' | 'category' | 'tag',
+      mode: 'create' | 'edit',
+      item?: any,
+    ) {
+  
+      if (entity == 'post' && mode == 'create') {
+        this.router.navigate(['/post/create'], {
+          replaceUrl: true,
+        });
+        return;
+      }
+  
+      if (entity == 'post' && mode == 'edit') {
+        this.router.navigate(['/post/update/' + item.postId], {
+          replaceUrl: true,
+        });
+        return;
+      }
+  
+      const ref = this.dialog.open(EntityDialogComponent, {
+        width: '600px',
+        data: { entity, mode, item },
+      });
+  
+      ref.afterClosed().subscribe((result) => {
+        if (!result || result.action === 'cancel') return;
+  
+        const payload = result.payload;
+        if (entity === 'category') {
+          if (result.action === 'create') {
+            this.categoryService.createCategory(payload).subscribe({
+              next: () => {
+                this.snackbar.open('Category created', 'Close', {
+                  duration: 3000,
+                });
+              },
+              error: (err) => {
+                let errorMsg = parseApiErrors(err);
+                this.snackbar.open(
+                  `Failed to create category: ${errorMsg}`,
+                  'Close',
+                  {
+                    duration: 3000,
+                  },
+                );
+              },
+              complete: async () => await this.loadDashboardData(),
+            });
+          } else {
+            this.categoryService
+              .updateCategory(payload.categoryId, payload)
+              .subscribe({
+                next: () => {
+                  this.snackbar.open('Category updated', 'Close', {
+                    duration: 3000,
+                  });
+                },
+                error: (err) => {
+                  let errorMsg = parseApiErrors(err);
+                  this.snackbar.open(
+                    `Failed to update category: ${errorMsg}`,
+                    'Close',
+                    {
+                      duration: 3000,
+                    },
+                  );
+                },
+                complete: async () => await this.loadDashboardData(),
+              });
+          }
+        }
+  
+        if (entity === 'tag') {
+          if (result.action === 'create') {
+            this.tagService.createTag(payload).subscribe({
+              next: () => {
+                this.snackbar.open('Tag created', 'Close', { duration: 3000 });
+              },
+              error: (err) => {
+                let errorMsg = parseApiErrors(err);
+                this.snackbar.open(`Failed to create tag: ${errorMsg}`, 'Close', {
+                  duration: 3000,
+                });
+              },
+              complete: async () => await this.loadDashboardData(),
+            });
+          } else {
+            this.tagService.updateTag(payload.tagId, payload).subscribe({
+              next: () => {
+                this.snackbar.open('Tag updated', 'Close', { duration: 3000 });
+              },
+              error: (err) => {
+                let errorMsg = parseApiErrors(err);
+                this.snackbar.open(`Failed to update tag: ${errorMsg}`, 'Close', {
+                  duration: 3000,
+                });
+              },
+              complete: async () => await this.loadDashboardData(),
+            });
+          }
+        }
+      });
+    }
 }
