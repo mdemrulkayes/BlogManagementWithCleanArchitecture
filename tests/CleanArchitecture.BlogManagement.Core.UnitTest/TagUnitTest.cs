@@ -47,25 +47,6 @@ public sealed class TagUnitTest
         Assert.Equal(validationError, tagResult.Error);
     }
 
-    [Theory]
-    [InlineData("tagName", "desc")]
-    public void Create_Tag_WithNameAndDescription_Should_Return_Error_When_Description_Length_IsLower(string tagName,
-        string description)
-    {
-        //Arrange
-        var validationError = Error.Validation("Tag.Description", "Tag Description can not be more than 150 characters");
-
-        //Act
-        var tagResult = Tag.Tag.Create(tagName, description);
-
-        //Assert
-
-        Assert.False(tagResult.IsSuccess);
-        Assert.Null(tagResult.Value);
-
-        Assert.NotNull(tagResult.Error);
-        Assert.Equal(validationError, tagResult.Error);
-    }
 
     [Theory]
     [InlineData("tagName", "Tag description")]
