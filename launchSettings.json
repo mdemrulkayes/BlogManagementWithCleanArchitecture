@@ -3,7 +3,6 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/scalar/v1",
       "serviceActions": {
         "cleanarchitecture.blogmanagement.webapi": "StartDebugging"
       }
