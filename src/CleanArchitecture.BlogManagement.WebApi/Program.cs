@@ -48,7 +48,7 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
-
+builder.Services.AddHealthChecks();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -65,7 +65,11 @@ app.UseExceptionHandler();
 
 app.MigrateDatabase();
 app.UseCors("AllowAll");
-app.UseHttpsRedirection();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseRouting();
 
@@ -74,5 +78,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapEndpoints();
+app.MapHealthChecks("/health");
 
 app.Run();

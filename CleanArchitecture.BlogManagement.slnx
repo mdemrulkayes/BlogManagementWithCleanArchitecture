@@ -17,8 +17,4 @@
   <Folder Name="/tests/">
     <Project Path="tests/CleanArchitecture.BlogManagement.Core.UnitTest/CleanArchitecture.BlogManagement.Core.UnitTest.csproj" />
   </Folder>
-  <Project Path="docker-compose.dcproj">
-    <Platform Project="AnyCPU" />
-    <Build />
-  </Project>
 </Solution>
