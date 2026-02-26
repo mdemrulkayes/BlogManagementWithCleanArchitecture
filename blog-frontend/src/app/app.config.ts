@@ -4,6 +4,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideDefaultClient } from '../client';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { environment } from '../environments/environment';
+import { provideMarkdown } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,7 +13,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideDefaultClient({
-      basePath: 'https://localhost:8081',
+      basePath: environment.apiUrl,
     }),
+    provideMarkdown(),
   ],
 };

@@ -38,7 +38,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonToggleModule } from '@angular/material/button-toggle'; // Added for the toggle switch
 
 // Markdown Import
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import {
   CategoryResponse,
   CategoryService,
@@ -74,6 +74,7 @@ export class CreateUpdate implements OnInit {
   private readonly postService = inject(PostService);
   private readonly categoryService = inject(CategoryService);
   private readonly tagService = inject(TagService);
+  // private readonly markdownService = inject(MarkdownService);
 
   @ViewChild('editorInput') editorInput!: ElementRef<HTMLTextAreaElement>;
 
@@ -245,14 +246,17 @@ export class CreateUpdate implements OnInit {
   }
 
   get tagControl(): FormControl {
-    // We use 'as FormControl' to tell TypeScript we are sure this is a FormControl
-    // and not a FormGroup or FormArray.
     return this.form.get('tagCtrl') as FormControl;
   }
 
   onSubmit() {
     if (this.form.invalid) return;
     console.log('Markdown Payload:', this.form.value);
+  }
+
+  togglePreviewMode(value: boolean): void {
+    this.isPreviewMode.set(value);
+    // this.markdownService.reload();
   }
 }
 

@@ -39,18 +39,18 @@
                     </div>
 
                     <mat-button-toggle-group appearance="legacy" [value]="isPreviewMode()"
-                        (change)="isPreviewMode.set($event.value)">
+                        (change)="togglePreviewMode($event.value)">
                         <mat-button-toggle [value]="false">Write</mat-button-toggle>
                         <mat-button-toggle [value]="true">Preview</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
 
                 <div class="flex-grow relative bg-white">
-                    @if (!isPreviewMode()) {
+                    @if (!isPreviewMode()) {    
                     <textarea #editorInput formControlName="text"
                         class="w-full h-full p-6 resize-none outline-none font-mono text-base leading-relaxed text-gray-800"
                         placeholder="Start writing... (Markdown supported)"></textarea>
-                    } @if (isPreviewMode()) {
+                    } @else {
                     <div class="h-full p-8 overflow-y-auto prose prose-slate max-w-none">
                         @if (!form.get('text')?.value) {
                         <p class="text-gray-400 italic">Nothing to preview yet.</p>
